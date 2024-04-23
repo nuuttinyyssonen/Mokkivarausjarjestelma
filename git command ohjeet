@@ -3,3 +3,5 @@ git commit -m "commitin nimi"
 git push origin master
 
 git pull origin master
+
+toimiiko?
