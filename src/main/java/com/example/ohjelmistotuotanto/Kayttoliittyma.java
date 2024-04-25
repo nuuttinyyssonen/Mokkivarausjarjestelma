@@ -72,6 +72,8 @@ public class Kayttoliittyma extends Application {
         vbAlue.setSpacing(10);
         vbAlue.getChildren().addAll(gpAlue, hbAlueNapit);
 
+        lvAlueet.getItems().add("Alue 1");
+
         alueet.setCenter(vbAlue);
         btAlueet.setOnAction(e->{
             alueet.setTop(hbValikko);
