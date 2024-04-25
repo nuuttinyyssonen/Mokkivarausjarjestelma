@@ -45,55 +45,90 @@ public class Kayttoliittyma extends Application {
         primaryStage.setScene(alkuScene);
 
         //Luodaan alueet näkymä
+        BorderPane alueet = new BorderPane();
+        ListView lvAlueet = new ListView();
+        alueet.setLeft(lvAlueet);
+        Scene alueetScene = new Scene(alueet, 700, 250);
+        TextField tfAlueID = new TextField();
+        Label lbAlueID = new Label("Alue ID");
+        TextField tfAlueNimi = new TextField();
+        Label lbAlueNimi = new Label("Alue nimi");
+        Button btLisaaAlue = new Button("Lisää alue");
+        Button btMuokkaaAlue = new Button("Muokkaa alue");
+        Button btPoistaAlue = new Button("Poista alue");
+        Button btAlueIDHaku = new Button("Hae alue ID:llä");
+        Button btAlueNimiHaku = new Button("Hae alueen nimellä");
+        HBox hbAlueNapit = new HBox();
+        hbAlueNapit.getChildren().addAll(btLisaaAlue, btMuokkaaAlue, btPoistaAlue);
+
+        GridPane gpAlue = new GridPane();
+        gpAlue.add(lbAlueID, 0, 0);
+        gpAlue.add(tfAlueID, 1, 0);
+        gpAlue.add(btAlueIDHaku, 2, 0);
+        gpAlue.add(lbAlueNimi, 0, 1);
+        gpAlue.add(tfAlueNimi, 1, 1);
+        gpAlue.add(btAlueNimiHaku, 2, 1);
+        VBox vbAlue = new VBox();
+        vbAlue.setSpacing(10);
+        vbAlue.getChildren().addAll(gpAlue, hbAlueNapit);
+
+        alueet.setCenter(vbAlue);
         btAlueet.setOnAction(e->{
-            BorderPane alueet = new BorderPane();
-            ListView lvAlueet = new ListView();
-            alueet.setLeft(lvAlueet);
-            Scene alueetScene = new Scene(alueet, 700, 250);
             alueet.setTop(hbValikko);
             primaryStage.setScene(alueetScene);
         });
+        btLisaaAlue.setOnAction(e->{
+            //Lisää alue tietokantaan
+        });
+        btPoistaAlue.setOnAction(e->{
+            //Poista alue tietokannasta
+        });
+        btMuokkaaAlue.setOnAction(e->{
+            //Muokkaa alue tietokannassa
+        });
+
+
         primaryStage.show();
 
         //Luodaan mökit näkymä
+        BorderPane mokit = new BorderPane();
+        ListView lvMokit = new ListView();
+        mokit.setLeft(lvMokit);
+        Scene mokitScene = new Scene(mokit, 700, 250);
         btMokit.setOnAction(e->{
-            BorderPane mokit = new BorderPane();
-            ListView lvMokit = new ListView();
-            mokit.setLeft(lvMokit);
-            Scene mokitScene = new Scene(mokit, 700, 250);
             mokit.setTop(hbValikko);
             primaryStage.setScene(mokitScene);
         });
 
         //Luodaan asiakkaat näkymä
+        BorderPane asiakkaat = new BorderPane();
+        ListView lvAsiakkaat = new ListView();
+        asiakkaat.setLeft(lvAsiakkaat);
+        Scene asiakkaatScene = new Scene(asiakkaat, 700, 250);
         btAsiakkaat.setOnAction(e->{
-            BorderPane asiakkaat = new BorderPane();
-            ListView lvAsiakkaat = new ListView();
-            asiakkaat.setLeft(lvAsiakkaat);
-            Scene asiakkaatScene = new Scene(asiakkaat, 700, 250);
             asiakkaat.setTop(hbValikko);
             primaryStage.setScene(asiakkaatScene);
         });
 
         //Luodaan palvelut näkymä
+        BorderPane palvelut = new BorderPane();
+        ListView lvPalvelut = new ListView();
+        palvelut.setLeft(lvPalvelut);
+        Scene palvelutScene = new Scene(palvelut, 700, 250);
         btPalvelut.setOnAction(e->{
-            BorderPane palvelut = new BorderPane();
-            ListView lvPalvelut = new ListView();
-            palvelut.setLeft(lvPalvelut);
-            Scene palvelutScene = new Scene(palvelut, 700, 250);
             palvelut.setTop(hbValikko);
             primaryStage.setScene(palvelutScene);
         });
 
         //Luodaan varaus näkymä
+        BorderPane varaus = new BorderPane();
+        ListView lvVaraus = new ListView();
+        varaus.setLeft(lvVaraus);
+        Scene varausScene = new Scene(varaus, 700, 250);
         btVaraus.setOnAction(e->{
-            BorderPane varaus = new BorderPane();
-            ListView lvVaraus = new ListView();
-            varaus.setLeft(lvVaraus);
-            Scene varausScene = new Scene(varaus, 700, 250);
             varaus.setTop(hbValikko);
             primaryStage.setScene(varausScene);
         });
-        
+
     }
 }
