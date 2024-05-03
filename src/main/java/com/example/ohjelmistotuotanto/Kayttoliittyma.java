@@ -97,7 +97,7 @@ public class Kayttoliittyma extends Application {
         ListView lvMokit = new ListView();
         mokit.setLeft(lvMokit);
         TextField tfMokkiID = new TextField();
-        Label lbMokkiID = new Label("Mökki ID");
+        Label lbMokkiID = new Label("Hae mökkiä nimellä");
         TextField tfMokkiAlueId = new TextField();
         tfMokkiAlueId.setPrefWidth(70);
         Label lbMokkiAlueId = new Label("Alue ID");
