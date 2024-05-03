@@ -100,6 +100,32 @@ public class DatabaseUtils {
         return mokit;
     }
 
+    public static List<Alue> selectAlueetByName(String name) {
+        List<Alue> alueet = new ArrayList<>();
+        Connection conn = null;
+        PreparedStatement pstmt = null;
+        ResultSet rs = null;
+        try {
+            conn = getConnection();
+            String sql = "SELECT * FROM alue WHERE nimi = ?";
+            pstmt = conn.prepareStatement(sql);
+            pstmt.setString(1, name);
+            rs = pstmt.executeQuery();
+
+            while (rs.next()) {
+                String nimi = rs.getString("nimi");
+                alueet.add(new Alue(nimi));
+            }
+        } catch (Exception ex) {
+            System.out.println("Error: " + ex.getMessage());
+        } finally {
+            close(rs);
+            close(pstmt);
+            close(conn);
+        }
+        return alueet;
+    }
+
     private static void close(AutoCloseable ac) {
         if (ac != null) {
             try {
