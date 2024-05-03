@@ -94,7 +94,9 @@ public class Kayttoliittyma extends Application {
 
         //Luodaan mökit näkymä
         BorderPane mokit = new BorderPane();
-        ListView lvMokit = new ListView();
+        ListView<Mokki> lvMokit = new ListView();
+
+
         mokit.setLeft(lvMokit);
         TextField tfMokkiID = new TextField();
         Label lbMokkiID = new Label("Hae mökkiä nimellä");
@@ -127,6 +129,18 @@ public class Kayttoliittyma extends Application {
         Button btPoistaMokki = new Button("Poista mökki");
         Button btMokkiHaku = new Button("Hae");
 
+        lvMokit.setOnMouseClicked(e->{
+            Mokki valittuMokki = lvMokit.getSelectionModel().getSelectedItem();
+            tfMokkiAlueId.setText(String.valueOf(valittuMokki.getAlue_id()));
+            tfPostnro.setText(valittuMokki.getPostinro());
+            tfMokkiNimi.setText(valittuMokki.getMokkinimi());
+            tfOsoite.setText(valittuMokki.getKatuosoite());
+            tfHenkilomaara.setText(String.valueOf(valittuMokki.getHenkilomaara()));
+            tfMokkiHinta.setText(String.valueOf(valittuMokki.getHinta()));
+            taMokkiKuvaus.setText(valittuMokki.getKuvaus());
+            taMokkiVarustelu.setText(valittuMokki.getVarustelu());
+        });
+
         btLisaaMokki.setOnAction(e->{
             int alue_id = Integer.parseInt(tfMokkiAlueId.getText());
             String postinro = tfPostnro.getText();
@@ -141,9 +155,8 @@ public class Kayttoliittyma extends Application {
 
         btMokkiHaku.setOnAction(e-> {
             List<Mokki> mokitLista = DatabaseUtils.selectMokitByName(tfMokkiID.getText());
-            for(Mokki mokki : mokitLista) {
-                System.out.println(mokki);
-            }
+            lvMokit.getItems().clear();
+            lvMokit.getItems().addAll(mokitLista);
         });
 
         GridPane gpMokki = new GridPane();

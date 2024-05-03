@@ -42,6 +42,13 @@ public class Mokki {
         return hinta;
     }
 
+    public int getAlue_id() {
+        return alue_id;
+    }
+
+    public void setAlue_id(int alue_id) {
+        this.alue_id = alue_id;
+    }
     public void setHinta(double hinta) {
         this.hinta = hinta;
     }
@@ -71,16 +78,7 @@ public class Mokki {
     }
 
     public String toString() {
-        return "Mokki{" +
-                "alue_id=" + alue_id +
-                ", postinro=" + postinro +
-                ", mokkinimi='" + mokkinimi + '\'' +
-                ", katuosoite='" + katuosoite + '\'' +
-                ", hinta=" + hinta +
-                ", kuvaus='" + kuvaus + '\'' +
-                ", henkilomaara=" + henkilomaara +
-                ", varustelu='" + varustelu + '\'' +
-                '}';
+        return "Mökin nimi: " + mokkinimi + "\n" + "Alue ID: " + alue_id;
     }
 
     public static void main(String[] args) {
