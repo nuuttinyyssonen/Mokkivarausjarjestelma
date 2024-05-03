@@ -9,7 +9,7 @@ public class MyJavaApp {
         Connection conn = null;
         try {
             // Replace with your database credentials
-            String url = "jdbc:mysql://localhost:3306";
+            String url = "jdbc:mysql://localhost:3306/vn";
             String user = "root";
             String password = "salasana";
 
