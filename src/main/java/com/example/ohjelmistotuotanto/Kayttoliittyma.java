@@ -4,10 +4,7 @@ import javafx.application.Application;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.ListView;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.layout.*;
 import javafx.stage.Stage;
 
@@ -48,7 +45,7 @@ public class Kayttoliittyma extends Application {
         BorderPane alueet = new BorderPane();
         ListView lvAlueet = new ListView();
         alueet.setLeft(lvAlueet);
-        Scene alueetScene = new Scene(alueet, 700, 250);
+        Scene alueetScene = new Scene(alueet, 700, 700);
         TextField tfAlueID = new TextField();
         Label lbAlueID = new Label("Alue ID");
         TextField tfAlueNimi = new TextField();
@@ -68,13 +65,16 @@ public class Kayttoliittyma extends Application {
         gpAlue.add(lbAlueNimi, 0, 1);
         gpAlue.add(tfAlueNimi, 1, 1);
         gpAlue.add(btAlueNimiHaku, 2, 1);
+        gpAlue.setVgap(5);
+        gpAlue.setPadding(new Insets(10,10,10,10));
         VBox vbAlue = new VBox();
         vbAlue.setSpacing(10);
+        hbAlueNapit.setPadding(new Insets(10,10,10,10));
         vbAlue.getChildren().addAll(gpAlue, hbAlueNapit);
-
+        alueet.setCenter(vbAlue);
         lvAlueet.getItems().add("Alue 1");
 
-        alueet.setCenter(vbAlue);
+
         btAlueet.setOnAction(e->{
             alueet.setTop(hbValikko);
             primaryStage.setScene(alueetScene);
@@ -96,7 +96,68 @@ public class Kayttoliittyma extends Application {
         BorderPane mokit = new BorderPane();
         ListView lvMokit = new ListView();
         mokit.setLeft(lvMokit);
-        Scene mokitScene = new Scene(mokit, 700, 250);
+        TextField tfMokkiID = new TextField();
+        Label lbMokkiID = new Label("Mökki ID");
+        TextField tfMokkiAlueId = new TextField();
+        tfMokkiAlueId.setPrefWidth(70);
+        Label lbMokkiAlueId = new Label("Alue ID");
+        TextField tfPostnro = new TextField();
+        tfPostnro.setPrefWidth(70);
+        Label lbPostnro = new Label("Postinumero");
+        TextField tfMokkiNimi = new TextField();
+        tfMokkiNimi.setPrefWidth(70);
+        Label lbMokkiNimi = new Label("Mökin nimi");
+        TextArea taMokkiKuvaus = new TextArea();
+        taMokkiKuvaus.setPrefWidth(70);
+        Label lbMokkiKuvaus = new Label("Mökin kuvaus");
+        TextField tfMokkiHinta = new TextField();
+        tfMokkiHinta.setPrefWidth(70);
+        Label lbMokkiHinta = new Label("Mökin hinta");
+        TextArea taMokkiVarustelu = new TextArea();
+        taMokkiVarustelu.setPrefWidth(70);
+        Label lbMokkiVarustelu = new Label("Mökin varustelu");
+        TextField tfOsoite = new TextField();
+        tfOsoite.setPrefWidth(70);
+        Label lbOsoite = new Label("Osoite");
+        TextField tfHenkilomaara = new TextField();
+        tfHenkilomaara.setPrefWidth(70);
+        Label lbHenkilomaara = new Label("Henkilömäärä");
+        Button btLisaaMokki = new Button("Lisää mökki");
+        Button btMuokkaaMokki = new Button("Muokkaa mökki");
+        Button btPoistaMokki = new Button("Poista mökki");
+        Button btMokkiHaku = new Button("Hae");
+
+        GridPane gpMokki = new GridPane();
+        gpMokki.add(lbMokkiID, 0, 0);
+        gpMokki.add(tfMokkiID, 1, 0);
+        gpMokki.add(lbMokkiAlueId, 0, 1);
+        gpMokki.add(tfMokkiAlueId, 1, 1);
+        gpMokki.add(lbPostnro, 0, 2);
+        gpMokki.add(tfPostnro, 1, 2);
+        gpMokki.add(lbMokkiNimi, 0, 3);
+        gpMokki.add(tfMokkiNimi, 1, 3);
+        gpMokki.add(lbOsoite, 0, 4);
+        gpMokki.add(tfOsoite, 1, 4);
+        gpMokki.add(lbHenkilomaara, 0, 5);
+        gpMokki.add(tfHenkilomaara, 1, 5);
+        gpMokki.add(lbMokkiHinta, 0, 6);
+        gpMokki.add(tfMokkiHinta, 1, 6);
+        gpMokki.add(lbMokkiKuvaus, 0, 7);
+        gpMokki.add(taMokkiKuvaus, 1, 7);
+        gpMokki.add(lbMokkiVarustelu, 0, 8);
+        gpMokki.add(taMokkiVarustelu, 1, 8);
+        gpMokki.add(btMokkiHaku, 2, 0);
+        HBox hbMokkiNapit = new HBox();
+        hbMokkiNapit.getChildren().addAll(btLisaaMokki, btMuokkaaMokki, btPoistaMokki);
+        VBox vbMokki = new VBox();
+        vbMokki.setSpacing(10);
+        hbMokkiNapit.setPadding(new Insets(10,10,10,10));
+        vbMokki.getChildren().addAll(gpMokki, hbMokkiNapit);
+
+        mokit.setCenter(vbMokki);
+        gpMokki.setVgap(5);
+        gpMokki.setPadding(new Insets(10,10,10,10));
+        Scene mokitScene = new Scene(mokit, 700, 700);
         btMokit.setOnAction(e->{
             mokit.setTop(hbValikko);
             primaryStage.setScene(mokitScene);
@@ -116,7 +177,48 @@ public class Kayttoliittyma extends Application {
         BorderPane palvelut = new BorderPane();
         ListView lvPalvelut = new ListView();
         palvelut.setLeft(lvPalvelut);
-        Scene palvelutScene = new Scene(palvelut, 700, 250);
+        GridPane gpPalvelut = new GridPane();
+        TextField tfPalveluID = new TextField();
+        tfPalveluID.setPrefWidth(70);
+        Label lbPalveluID = new Label("Palvelu ID");
+        TextField tfPalveluNimi = new TextField();
+        tfPalveluNimi.setPrefWidth(70);
+        Label lbPalveluNimi = new Label("Palvelu nimi");
+        TextField tfPalveluHinta = new TextField();
+        tfPalveluHinta.setPrefWidth(70);
+        Label lbPalveluHinta = new Label("Hinta");
+        TextField tfAlueIDPalvelu = new TextField();
+        tfAlueIDPalvelu.setPrefWidth(70);
+        Label lbAlueIDPalvelu = new Label("Alue ID");
+        TextArea taPalveluKuvaus = new TextArea();
+        taPalveluKuvaus.setPrefWidth(70);
+        Label lbPalveluKuvaus = new Label("Kuvaus");
+        Button btLisaaPalvelu = new Button("Lisää palvelu");
+        Button btMuokkaaPalvelu = new Button("Muokkaa palvelu");
+        Button btPoistaPalvelu = new Button("Poista palvelu");
+        Button btPalveluHaku = new Button("Hae");
+        gpPalvelut.add(lbPalveluID, 0, 0);
+        gpPalvelut.add(tfPalveluID, 1, 0);
+        gpPalvelut.add(lbPalveluNimi, 0, 1);
+        gpPalvelut.add(tfPalveluNimi, 1, 1);
+        gpPalvelut.add(lbPalveluHinta, 0, 2);
+        gpPalvelut.add(tfPalveluHinta, 1, 2);
+        gpPalvelut.add(lbAlueIDPalvelu, 0, 3);
+        gpPalvelut.add(tfAlueIDPalvelu, 1, 3);
+        gpPalvelut.add(lbPalveluKuvaus, 0, 4);
+        gpPalvelut.add(taPalveluKuvaus, 1, 4);
+        gpPalvelut.add(btPalveluHaku, 2, 0);
+        HBox hbPalveluNapit = new HBox();
+        hbPalveluNapit.getChildren().addAll(btLisaaPalvelu, btMuokkaaPalvelu, btPoistaPalvelu);
+        VBox vbPalvelu = new VBox();
+        vbPalvelu.setSpacing(10);
+        hbPalveluNapit.setPadding(new Insets(10,10,10,10));
+        vbPalvelu.getChildren().addAll(gpPalvelut, hbPalveluNapit);
+        palvelut.setCenter(vbPalvelu);
+        gpPalvelut.setVgap(5);
+        gpPalvelut.setPadding(new Insets(10,10,10,10));
+
+        Scene palvelutScene = new Scene(palvelut, 700, 700);
         btPalvelut.setOnAction(e->{
             palvelut.setTop(hbValikko);
             primaryStage.setScene(palvelutScene);
@@ -126,7 +228,7 @@ public class Kayttoliittyma extends Application {
         BorderPane varaus = new BorderPane();
         ListView lvVaraus = new ListView();
         varaus.setLeft(lvVaraus);
-        Scene varausScene = new Scene(varaus, 700, 250);
+        Scene varausScene = new Scene(varaus, 700, 700);
         btVaraus.setOnAction(e->{
             varaus.setTop(hbValikko);
             primaryStage.setScene(varausScene);
