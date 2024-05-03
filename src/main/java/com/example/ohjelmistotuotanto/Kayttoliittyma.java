@@ -80,7 +80,8 @@ public class Kayttoliittyma extends Application {
             primaryStage.setScene(alueetScene);
         });
         btLisaaAlue.setOnAction(e->{
-            //Lisää alue tietokantaan
+            String alueNimi = tfAlueNimi.getText();
+            DatabaseUtils.insertAlue(alueNimi);
         });
         btPoistaAlue.setOnAction(e->{
             //Poista alue tietokannasta

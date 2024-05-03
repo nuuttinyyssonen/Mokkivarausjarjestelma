@@ -1,5 +1,7 @@
 package com.example.ohjelmistotuotanto;
 
+import com.mysql.cj.x.protobuf.MysqlxPrepare;
+
 import java.sql.*;
 
 public class DatabaseUtils {
@@ -14,6 +16,25 @@ public class DatabaseUtils {
 
         // Get a connection
         return DriverManager.getConnection(URL, USER, PASSWORD);
+    }
+
+    public static void insertAlue(String nimi) {
+        Connection conn = null;
+        PreparedStatement pstmt = null;
+        try {
+            conn = getConnection();
+            String sql = "INSERT INTO alue (nimi) VALUES (?)";
+            pstmt = conn.prepareStatement(sql);
+            pstmt.setString(1, nimi);
+
+            int affectedRows = pstmt.executeUpdate();
+            System.out.println("Inserted " + affectedRows + " rows.");
+        } catch (Exception ex) {
+            System.out.println("Error: " + ex.getMessage());
+        } finally {
+            close(pstmt);
+            close(conn);
+        }
     }
 
     public static void insertMokki(int alue_id, String postinro, String mokkinimi, String katuosoite, double hinta, String kuvaus, int henkilomaara, String varustelu) {
