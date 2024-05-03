@@ -29,12 +29,10 @@ public class Kayttoliittyma extends Application {
 
         //Luodaan alotus näyttö paneeli
         BorderPane alkuNakyma = new BorderPane();
-        TextField tfHaku = new TextField();
-        Button btHaku = new Button("Hae");
-        HBox hbHaku = new  HBox(tfHaku, btHaku);
-        alkuNakyma.setCenter(hbHaku);
-        hbHaku.setAlignment(Pos.CENTER);
-        alkuNakyma.setTop(hbValikko);
+
+        alkuNakyma.setCenter(hbValikko);
+        hbValikko.setAlignment(Pos.CENTER);
+
 
 
         Scene alkuScene = new Scene(alkuNakyma, 700, 250);
@@ -53,18 +51,17 @@ public class Kayttoliittyma extends Application {
         Button btLisaaAlue = new Button("Lisää alue");
         Button btMuokkaaAlue = new Button("Muokkaa alue");
         Button btPoistaAlue = new Button("Poista alue");
-        Button btAlueIDHaku = new Button("Hae alue ID:llä");
-        Button btAlueNimiHaku = new Button("Hae alueen nimellä");
+        Button btAlueHaku = new Button("Hae");
+
         HBox hbAlueNapit = new HBox();
         hbAlueNapit.getChildren().addAll(btLisaaAlue, btMuokkaaAlue, btPoistaAlue);
 
         GridPane gpAlue = new GridPane();
         gpAlue.add(lbAlueID, 0, 0);
         gpAlue.add(tfAlueID, 1, 0);
-        gpAlue.add(btAlueIDHaku, 2, 0);
+        gpAlue.add(btAlueHaku, 2, 0);
         gpAlue.add(lbAlueNimi, 0, 1);
         gpAlue.add(tfAlueNimi, 1, 1);
-        gpAlue.add(btAlueNimiHaku, 2, 1);
         gpAlue.setVgap(5);
         gpAlue.setPadding(new Insets(10,10,10,10));
         VBox vbAlue = new VBox();
@@ -72,7 +69,7 @@ public class Kayttoliittyma extends Application {
         hbAlueNapit.setPadding(new Insets(10,10,10,10));
         vbAlue.getChildren().addAll(gpAlue, hbAlueNapit);
         alueet.setCenter(vbAlue);
-        lvAlueet.getItems().add("Alue 1");
+
 
 
         btAlueet.setOnAction(e->{
@@ -180,7 +177,51 @@ public class Kayttoliittyma extends Application {
         BorderPane asiakkaat = new BorderPane();
         ListView lvAsiakkaat = new ListView();
         asiakkaat.setLeft(lvAsiakkaat);
-        Scene asiakkaatScene = new Scene(asiakkaat, 700, 250);
+        TextField tfAsiakasID = new TextField();
+        Label lbAsiakasID = new Label("Asiakas ID");
+        TextField tfEtunimi = new TextField();
+        Label lbEtunimi = new Label("Etunimi");
+        TextField tfSukunimi = new TextField();
+        Label lbSukunimi = new Label("Sukunimi");
+        TextField tfPuhelin = new TextField();
+        Label lbPuhelin = new Label("Puhelin nro");
+        TextField tfEmail = new TextField();
+        Label lbEmail = new Label("Sähköposti");
+        TextField tfLahiosoite = new TextField();
+        Label lbLahiosoite = new Label("Lähiosoite");
+        TextField tfPostinro = new TextField();
+        Label lbPostinro = new Label("Postinumero");
+        GridPane gpAsiakas = new GridPane();
+        gpAsiakas.add(lbAsiakasID, 0, 0);
+        gpAsiakas.add(tfAsiakasID, 1, 0);
+        gpAsiakas.add(lbEtunimi, 0, 1);
+        gpAsiakas.add(tfEtunimi, 1, 1);
+        gpAsiakas.add(lbSukunimi, 0, 2);
+        gpAsiakas.add(tfSukunimi, 1, 2);
+        gpAsiakas.add(lbPuhelin, 0, 3);
+        gpAsiakas.add(tfPuhelin, 1, 3);
+        gpAsiakas.add(lbEmail, 0, 4);
+        gpAsiakas.add(tfEmail, 1, 4);
+        gpAsiakas.add(lbLahiosoite, 0, 5);
+        gpAsiakas.add(tfLahiosoite, 1, 5);
+        gpAsiakas.add(lbPostinro, 0, 6);
+        gpAsiakas.add(tfPostinro, 1, 6);
+        Button btLisaaAsiakas = new Button("Lisää asiakas");
+        Button btMuokkaaAsiakas = new Button("Muokkaa asiakas");
+        Button btPoistaAsiakas = new Button("Poista asiakas");
+        Button btAsiakasHaku = new Button("Hae");
+        gpAsiakas.add(btAsiakasHaku, 2, 0);
+        HBox hbAsiakasNapit = new HBox();
+        hbAsiakasNapit.getChildren().addAll(btLisaaAsiakas, btMuokkaaAsiakas, btPoistaAsiakas);
+        VBox vbAsiakas = new VBox();
+        vbAsiakas.setSpacing(10);
+        hbAsiakasNapit.setPadding(new Insets(10,10,10,10));
+        vbAsiakas.getChildren().addAll(gpAsiakas, hbAsiakasNapit);
+        asiakkaat.setCenter(vbAsiakas);
+        gpAsiakas.setVgap(5);
+        gpAsiakas.setPadding(new Insets(10,10,10,10));
+
+        Scene asiakkaatScene = new Scene(asiakkaat, 700, 700);
         btAsiakkaat.setOnAction(e->{
             asiakkaat.setTop(hbValikko);
             primaryStage.setScene(asiakkaatScene);
@@ -244,8 +285,8 @@ public class Kayttoliittyma extends Application {
         Scene varausScene = new Scene(varaus, 700, 700);
         TextField tfVarausID = new TextField();
         Label lbVarausID = new Label("Varaus ID");
-        TextField tfAsiakasID = new TextField();
-        Label lbAsiakasID = new Label("Asiakas ID");
+        TextField tfAsiakasIDVaraus = new TextField();
+        Label lbAsiakasIDVaraus = new Label("Asiakas ID");
         TextField tfMokkiIDVaraus = new TextField();
         Label lbMokkiIDVaraus = new Label("Mökin ID");
         TextField tfVarattuAlkuPvm = new TextField();
@@ -263,8 +304,8 @@ public class Kayttoliittyma extends Application {
         GridPane gpVaraus = new GridPane();
         gpVaraus.add(lbVarausID, 0, 0);
         gpVaraus.add(tfVarausID, 1, 0);
-        gpVaraus.add(lbAsiakasID, 0, 1);
-        gpVaraus.add(tfAsiakasID, 1, 1);
+        gpVaraus.add(lbAsiakasIDVaraus, 0, 1);
+        gpVaraus.add(tfAsiakasIDVaraus, 1, 1);
         gpVaraus.add(lbMokkiIDVaraus, 0, 2);
         gpVaraus.add(tfMokkiIDVaraus, 1, 2);
         gpVaraus.add(lbVarattuAlkuPvm, 0, 3);
