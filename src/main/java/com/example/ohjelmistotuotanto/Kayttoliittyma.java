@@ -88,6 +88,12 @@ public class Kayttoliittyma extends Application {
         btMuokkaaAlue.setOnAction(e->{
             //Muokkaa alue tietokannassa
         });
+        btAlueHaku.setOnAction(e->{
+            List<Alue> alueetLista = DatabaseUtils.selectAlueetByName(tfAlueNimi.getText());
+            for(Alue alue : alueetLista) {
+                System.out.println(alue.getNimi());
+            }
+        });
 
 
         primaryStage.show();
