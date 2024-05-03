@@ -179,16 +179,16 @@ public class Kayttoliittyma extends Application {
         palvelut.setLeft(lvPalvelut);
         GridPane gpPalvelut = new GridPane();
         TextField tfPalveluID = new TextField();
-        tfPalveluID.setPrefWidth(70);
+
         Label lbPalveluID = new Label("Palvelu ID");
         TextField tfPalveluNimi = new TextField();
-        tfPalveluNimi.setPrefWidth(70);
+
         Label lbPalveluNimi = new Label("Palvelu nimi");
         TextField tfPalveluHinta = new TextField();
-        tfPalveluHinta.setPrefWidth(70);
+
         Label lbPalveluHinta = new Label("Hinta");
         TextField tfAlueIDPalvelu = new TextField();
-        tfAlueIDPalvelu.setPrefWidth(70);
+
         Label lbAlueIDPalvelu = new Label("Alue ID");
         TextArea taPalveluKuvaus = new TextArea();
         taPalveluKuvaus.setPrefWidth(70);
@@ -229,6 +229,50 @@ public class Kayttoliittyma extends Application {
         ListView lvVaraus = new ListView();
         varaus.setLeft(lvVaraus);
         Scene varausScene = new Scene(varaus, 700, 700);
+        TextField tfVarausID = new TextField();
+        Label lbVarausID = new Label("Varaus ID");
+        TextField tfAsiakasID = new TextField();
+        Label lbAsiakasID = new Label("Asiakas ID");
+        TextField tfMokkiIDVaraus = new TextField();
+        Label lbMokkiIDVaraus = new Label("Mökin ID");
+        TextField tfVarattuAlkuPvm = new TextField();
+        Label lbVarattuAlkuPvm = new Label("Varattu alku pvm");
+        TextField tfVarattuLoppuPvm = new TextField();
+        Label lbVarattuLoppuPvm = new Label("Varattu loppu pvm");
+        TextField tfVahvistusPvm = new TextField();
+        Label lbVahvistusPvm = new Label("Vahvistus pvm");
+        TextField tfVarattuPvm = new TextField();
+        Label lbVarattuPvm = new Label("Varattu pvm");
+        Button btLisaaVaraus = new Button("Lisää varaus");
+        Button btMuokkaaVaraus = new Button("Muokkaa varaus");
+        Button btPoistaVaraus = new Button("Poista varaus");
+        Button btVarausHaku = new Button("Hae");
+        GridPane gpVaraus = new GridPane();
+        gpVaraus.add(lbVarausID, 0, 0);
+        gpVaraus.add(tfVarausID, 1, 0);
+        gpVaraus.add(lbAsiakasID, 0, 1);
+        gpVaraus.add(tfAsiakasID, 1, 1);
+        gpVaraus.add(lbMokkiIDVaraus, 0, 2);
+        gpVaraus.add(tfMokkiIDVaraus, 1, 2);
+        gpVaraus.add(lbVarattuAlkuPvm, 0, 3);
+        gpVaraus.add(tfVarattuAlkuPvm, 1, 3);
+        gpVaraus.add(lbVarattuLoppuPvm, 0, 4);
+        gpVaraus.add(tfVarattuLoppuPvm, 1, 4);
+        gpVaraus.add(lbVahvistusPvm, 0, 5);
+        gpVaraus.add(tfVahvistusPvm, 1, 5);
+        gpVaraus.add(lbVarattuPvm, 0, 6);
+        gpVaraus.add(tfVarattuPvm, 1, 6);
+        gpVaraus.add(btVarausHaku, 2, 0);
+        HBox hbVarausNapit = new HBox();
+        hbVarausNapit.getChildren().addAll(btLisaaVaraus, btMuokkaaVaraus, btPoistaVaraus);
+        VBox vbVaraus = new VBox();
+        vbVaraus.setSpacing(10);
+        hbVarausNapit.setPadding(new Insets(10,10,10,10));
+        vbVaraus.getChildren().addAll(gpVaraus, hbVarausNapit);
+        varaus.setCenter(vbVaraus);
+        gpVaraus.setVgap(5);
+        gpVaraus.setPadding(new Insets(10,10,10,10));
+
         btVaraus.setOnAction(e->{
             varaus.setTop(hbValikko);
             primaryStage.setScene(varausScene);
