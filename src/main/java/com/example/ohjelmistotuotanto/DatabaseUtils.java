@@ -3,6 +3,8 @@ package com.example.ohjelmistotuotanto;
 import com.mysql.cj.x.protobuf.MysqlxPrepare;
 
 import java.sql.*;
+import java.util.ArrayList;
+import java.util.List;
 
 public class DatabaseUtils {
 
@@ -62,6 +64,40 @@ public class DatabaseUtils {
             close(pstmt);
             close(conn);
         }
+    }
+
+    public static List<Mokki> selectMokitByName(String name) {
+        List<Mokki> mokit = new ArrayList<>();
+        Connection conn = null;
+        PreparedStatement pstmt = null;
+        ResultSet rs = null;
+        try {
+            conn = getConnection();
+            String sql = "SELECT * FROM mokki WHERE mokkinimi = ?";
+            pstmt = conn.prepareStatement(sql);
+            pstmt.setString(1, name);
+            rs = pstmt.executeQuery();
+
+            while (rs.next()) {
+                int id = rs.getInt("mokki_id");
+                int alue_id = rs.getInt("alue_id");
+                String mokkinimi = rs.getString("mokkinimi");
+                String postinro = rs.getString("postinro");
+                String katuosoite = rs.getString("katuosoite");
+                Double hinta = rs.getDouble("hinta");
+                String kuvaus = rs.getString("kuvaus");
+                int henkilomaara = rs.getInt("henkilomaara");
+                String varustelu = rs.getString("varustelu");
+                mokit.add(new Mokki(alue_id, postinro, mokkinimi, katuosoite, hinta, kuvaus, henkilomaara, varustelu));
+            }
+        } catch (Exception ex) {
+            System.out.println("Error: " + ex.getMessage());
+        } finally {
+            close(rs);
+            close(pstmt);
+            close(conn);
+        }
+        return mokit;
     }
 
     private static void close(AutoCloseable ac) {

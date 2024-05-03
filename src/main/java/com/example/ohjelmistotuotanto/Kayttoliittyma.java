@@ -8,6 +8,8 @@ import javafx.scene.control.*;
 import javafx.scene.layout.*;
 import javafx.stage.Stage;
 
+import java.util.List;
+
 public class Kayttoliittyma extends Application {
 
     public static void main(String[] args) {
@@ -138,6 +140,13 @@ public class Kayttoliittyma extends Application {
             String kuvaus = taMokkiKuvaus.getText();
             String varustelu = taMokkiVarustelu.getText();
             DatabaseUtils.insertMokki(alue_id, postinro, mokkiNimi, osoite, hinta, kuvaus, henkilomaara, varustelu);
+        });
+
+        btMokkiHaku.setOnAction(e-> {
+            List<Mokki> mokitLista = DatabaseUtils.selectMokitByName(tfMokkiID.getText());
+            for(Mokki mokki : mokitLista) {
+                System.out.println(mokki);
+            }
         });
 
         GridPane gpMokki = new GridPane();
