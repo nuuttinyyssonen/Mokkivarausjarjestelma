@@ -127,6 +127,18 @@ public class Kayttoliittyma extends Application {
         Button btPoistaMokki = new Button("Poista mökki");
         Button btMokkiHaku = new Button("Hae");
 
+        btLisaaMokki.setOnAction(e->{
+            int alue_id = Integer.parseInt(tfMokkiAlueId.getText());
+            String postinro = tfPostnro.getText();
+            String mokkiNimi = tfMokkiNimi.getText();
+            String osoite = tfOsoite.getText();
+            int henkilomaara = Integer.parseInt(tfHenkilomaara.getText());
+            double hinta = Double.parseDouble(tfMokkiHinta.getText());
+            String kuvaus = taMokkiKuvaus.getText();
+            String varustelu = taMokkiVarustelu.getText();
+            DatabaseUtils.insertMokki(alue_id, postinro, mokkiNimi, osoite, hinta, kuvaus, henkilomaara, varustelu);
+        });
+
         GridPane gpMokki = new GridPane();
         gpMokki.add(lbMokkiID, 0, 0);
         gpMokki.add(tfMokkiID, 1, 0);
