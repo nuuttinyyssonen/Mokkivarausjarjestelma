@@ -1,6 +1,6 @@
 package com.example.ohjelmistotuotanto;
 
-import com.mysql.cj.x.protobuf.MysqlxPrepare;
+import java.sql.*;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -100,11 +100,11 @@ public class DatabaseUtils {
         return mokit;
     }
 
-    public static List<Alue> selectAlueetByName(String name) {
-        List<Alue> alueet = new ArrayList<>();
+    public static int selectAlueetByName(String name) {
         Connection conn = null;
         PreparedStatement pstmt = null;
         ResultSet rs = null;
+        int alue_id = 0;
         try {
             conn = getConnection();
             String sql = "SELECT * FROM alue WHERE nimi = ?";
@@ -113,8 +113,8 @@ public class DatabaseUtils {
             rs = pstmt.executeQuery();
 
             while (rs.next()) {
-                String nimi = rs.getString("nimi");
-                alueet.add(new Alue(nimi));
+                alue_id = rs.getInt("alue_id");
+
             }
         } catch (Exception ex) {
             System.out.println("Error: " + ex.getMessage());
@@ -123,7 +123,7 @@ public class DatabaseUtils {
             close(pstmt);
             close(conn);
         }
-        return alueet;
+        return alue_id;
     }
 
     private static void close(AutoCloseable ac) {
@@ -134,5 +134,89 @@ public class DatabaseUtils {
                 System.out.println("Failed to close resource: " + ex.getMessage());
             }
         }
+    }
+    public static void insertPalvelu(int alue_id, String nimi, String kuvaus, double hinta) {
+        Connection conn = null;
+        PreparedStatement pstmt = null;
+        try {
+            conn = getConnection();
+            String sql = "INSERT INTO palvelu (alue_id, nimi, kuvaus, hinta, alv) VALUES (?, ?, ?, ?,?)";
+            pstmt = conn.prepareStatement(sql);
+            pstmt.setInt(1,alue_id);
+            pstmt.setString(2, nimi);
+            pstmt.setString(3, kuvaus);
+            pstmt.setDouble(4, hinta);
+            pstmt.setDouble(5, hinta * 0.10);
+
+            int affectedRows = pstmt.executeUpdate();
+            System.out.println("Inserted " + affectedRows + " rows.");
+        } catch (Exception ex) {
+            System.out.println("Error: " + ex.getMessage());
+        } finally {
+            close(pstmt);
+            close(conn);
+        }
+    }
+    public static List<Palvelu> selectPalvelutByName(String name) {
+        List<Palvelu> palvelut = new ArrayList<>();
+        Connection conn = null;
+        PreparedStatement pstmt = null;
+        ResultSet rs = null;
+        try {
+            conn = getConnection();
+            String sql = "SELECT * FROM palvelu WHERE nimi = ?";
+            pstmt = conn.prepareStatement(sql);
+            pstmt.setString(1, name);
+            rs = pstmt.executeQuery();
+
+            while (rs.next()) {
+                String nimi = rs.getString("nimi");
+                int alue_id = rs.getInt("alue_id");
+                String kuvaus = rs.getString("kuvaus");
+                double hinta = rs.getDouble("hinta");
+                palvelut.add(new Palvelu(alue_id, nimi, kuvaus, hinta));
+            }
+        } catch (Exception ex) {
+            System.out.println("Error: " + ex.getMessage());
+        } finally {
+            close(rs);
+            close(pstmt);
+            close(conn);
+        }
+        return palvelut;
+    }
+    public static List<Mokki> selectMokitByAlueId(int alueid) {
+        List<Mokki> mokit = new ArrayList<>();
+        Connection conn = null;
+        PreparedStatement pstmt = null;
+        ResultSet rs = null;
+
+        try {
+            conn = getConnection();
+            String sql = "SELECT * FROM mokki WHERE alue_id = ?";
+            pstmt = conn.prepareStatement(sql);
+            pstmt.setInt(1, alueid);
+            rs = pstmt.executeQuery();
+
+            while (rs.next()) {
+                int id = rs.getInt("mokki_id");
+                int alue_id = rs.getInt("alue_id");
+                String mokkinimi = rs.getString("mokkinimi");
+                String postinro = rs.getString("postinro");
+                String katuosoite = rs.getString("katuosoite");
+                Double hinta = rs.getDouble("hinta");
+                String kuvaus = rs.getString("kuvaus");
+                int henkilomaara = rs.getInt("henkilomaara");
+                String varustelu = rs.getString("varustelu");
+                mokit.add(new Mokki(alue_id, postinro, mokkinimi, katuosoite, hinta, kuvaus, henkilomaara, varustelu));
+            }
+        } catch (Exception ex) {
+            System.out.println("Error: " + ex.getMessage());
+        } finally {
+            close(rs);
+            close(pstmt);
+            close(conn);
+        }
+        return mokit;
     }
 }
