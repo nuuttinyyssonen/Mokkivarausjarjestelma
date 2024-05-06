@@ -1,10 +1,15 @@
 package com.example.ohjelmistotuotanto;
 
+<<<<<<< HEAD
+=======
 import java.sql.*;
 
+>>>>>>> f7f28c157c1fb99b041d0a290b22c5c3838e4748
 import java.sql.*;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+import java.sql.Date;
 
 public class DatabaseUtils {
 
@@ -42,8 +47,22 @@ public class DatabaseUtils {
     public static void insertMokki(int alue_id, String postinro, String mokkinimi, String katuosoite, double hinta, String kuvaus, int henkilomaara, String varustelu) {
         Connection conn = null;
         PreparedStatement pstmt = null;
+        ResultSet rs = null;
         try {
             conn = getConnection();
+            String sql_postinro = "SELECT * FROM posti WHERE postinro = ?";
+            pstmt = conn.prepareStatement(sql_postinro);
+            pstmt.setString(1, postinro);
+            rs = pstmt.executeQuery();
+            if(!rs.next()) {
+                System.out.println("here");
+                String sql = "INSERT INTO posti (postinro, toimipaikka) VALUES (?, ?)";
+                pstmt = conn.prepareStatement(sql);
+                pstmt.setString(1, postinro);
+                pstmt.setString(2, "Kuopio");
+                int affectedRows = pstmt.executeUpdate();
+                System.out.println("Inserted " + affectedRows + " rows.");
+            }
             String sql = "INSERT INTO mokki (alue_id, postinro, mokkinimi, katuosoite, hinta, kuvaus, henkilomaara, varustelu) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
             pstmt = conn.prepareStatement(sql);
 
@@ -55,6 +74,36 @@ public class DatabaseUtils {
             pstmt.setString(6, kuvaus);
             pstmt.setInt(7, henkilomaara);
             pstmt.setString(8, varustelu);
+
+            int affectedRows = pstmt.executeUpdate();
+            System.out.println("Inserted " + affectedRows + " rows.");
+        } catch (Exception ex) {
+            System.out.println("Error: " + ex.getMessage());
+        } finally {
+            close(pstmt);
+            close(conn);
+        }
+    }
+
+    public static void insertVaraus(int asiakas_id, int mokki_id, LocalDate varattu_pvm_alku, LocalDate varattu_pvm_loppu) {
+        Connection conn = null;
+        PreparedStatement pstmt = null;
+        try {
+            conn = getConnection();
+            String sql = "INSERT INTO varaus (asiakas_id, mokki_id, varattu_pvm, vahvistus_pvm, varattu_alkupvm, varattu_loppupvm) VALUES (?, ?, ?, ?, ?, ?)";
+            pstmt = conn.prepareStatement(sql);
+            pstmt.setInt(1, asiakas_id);
+            pstmt.setInt(2, mokki_id);
+
+            LocalDate localDate_now = LocalDate.now();
+            Date varattu_pvm = Date.valueOf(localDate_now);
+            pstmt.setDate(3, varattu_pvm);
+            pstmt.setDate(4, varattu_pvm);
+
+            Date varattu_alkupvm_sql = Date.valueOf(varattu_pvm_alku);
+            Date varattu_loppupvm_sql = Date.valueOf(varattu_pvm_loppu);
+            pstmt.setDate(5, varattu_alkupvm_sql);
+            pstmt.setDate(6, varattu_loppupvm_sql);
 
             int affectedRows = pstmt.executeUpdate();
             System.out.println("Inserted " + affectedRows + " rows.");
@@ -135,6 +184,9 @@ public class DatabaseUtils {
             }
         }
     }
+<<<<<<< HEAD
+}
+=======
     public static void insertPalvelu(int alue_id, String nimi, String kuvaus, double hinta) {
         Connection conn = null;
         PreparedStatement pstmt = null;
@@ -220,3 +272,4 @@ public class DatabaseUtils {
         return mokit;
     }
 }
+>>>>>>> f7f28c157c1fb99b041d0a290b22c5c3838e4748

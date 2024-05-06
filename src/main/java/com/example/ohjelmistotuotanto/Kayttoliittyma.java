@@ -8,6 +8,7 @@ import javafx.scene.control.*;
 import javafx.scene.layout.*;
 import javafx.stage.Stage;
 
+import java.time.LocalDate;
 import java.util.List;
 
 public class Kayttoliittyma extends Application {
@@ -333,14 +334,14 @@ public class Kayttoliittyma extends Application {
         varaus.setLeft(lvVaraus);
         Scene varausScene = new Scene(varaus, 700, 700);
         TextField tfVarausID = new TextField();
-        Label lbVarausID = new Label("Varaus ID");
+        Label lbVarausID = new Label("Hae mökkiä nimellä ");
         TextField tfAsiakasIDVaraus = new TextField();
         Label lbAsiakasIDVaraus = new Label("Asiakas ID");
         TextField tfMokkiIDVaraus = new TextField();
         Label lbMokkiIDVaraus = new Label("Mökin ID");
-        TextField tfVarattuAlkuPvm = new TextField();
+        DatePicker startDatePicker = new DatePicker();
+        DatePicker endDatePicker = new DatePicker();
         Label lbVarattuAlkuPvm = new Label("Varattu alku pvm");
-        TextField tfVarattuLoppuPvm = new TextField();
         Label lbVarattuLoppuPvm = new Label("Varattu loppu pvm");
         TextField tfVahvistusPvm = new TextField();
         Label lbVahvistusPvm = new Label("Vahvistus pvm");
@@ -358,9 +359,9 @@ public class Kayttoliittyma extends Application {
         gpVaraus.add(lbMokkiIDVaraus, 0, 2);
         gpVaraus.add(tfMokkiIDVaraus, 1, 2);
         gpVaraus.add(lbVarattuAlkuPvm, 0, 3);
-        gpVaraus.add(tfVarattuAlkuPvm, 1, 3);
+        gpVaraus.add(startDatePicker, 1, 3);
         gpVaraus.add(lbVarattuLoppuPvm, 0, 4);
-        gpVaraus.add(tfVarattuLoppuPvm, 1, 4);
+        gpVaraus.add(endDatePicker, 1, 4);
         gpVaraus.add(lbVahvistusPvm, 0, 5);
         gpVaraus.add(tfVahvistusPvm, 1, 5);
         gpVaraus.add(lbVarattuPvm, 0, 6);
@@ -375,6 +376,14 @@ public class Kayttoliittyma extends Application {
         varaus.setCenter(vbVaraus);
         gpVaraus.setVgap(5);
         gpVaraus.setPadding(new Insets(10,10,10,10));
+
+        btLisaaVaraus.setOnAction(e->{
+            int asiakas_id = Integer.parseInt(tfAsiakasIDVaraus.getText());
+            int mokki_id = Integer.parseInt(tfMokkiIDVaraus.getText());
+            LocalDate varattu_pvm_alku = startDatePicker.getValue();
+            LocalDate varattu_pvm_loppu = endDatePicker.getValue();
+            DatabaseUtils.insertVaraus(asiakas_id, mokki_id, varattu_pvm_alku, varattu_pvm_loppu);
+        });
 
         btVaraus.setOnAction(e->{
             varaus.setTop(hbValikko);
