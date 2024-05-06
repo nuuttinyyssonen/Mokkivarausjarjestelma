@@ -47,10 +47,9 @@ public class Kayttoliittyma extends Application {
         ListView lvAlueet = new ListView();
         alueet.setLeft(lvAlueet);
         Scene alueetScene = new Scene(alueet, 700, 700);
-        TextField tfAlueID = new TextField();
-        Label lbAlueID = new Label("Alue ID");
+
         TextField tfAlueNimi = new TextField();
-        Label lbAlueNimi = new Label("Alue nimi");
+        Label lbAlueNimi = new Label("Hae nimellä");
         Button btLisaaAlue = new Button("Lisää alue");
         Button btMuokkaaAlue = new Button("Muokkaa alue");
         Button btPoistaAlue = new Button("Poista alue");
@@ -60,11 +59,10 @@ public class Kayttoliittyma extends Application {
         hbAlueNapit.getChildren().addAll(btLisaaAlue, btMuokkaaAlue, btPoistaAlue);
 
         GridPane gpAlue = new GridPane();
-        gpAlue.add(lbAlueID, 0, 0);
-        gpAlue.add(tfAlueID, 1, 0);
+
         gpAlue.add(btAlueHaku, 2, 0);
-        gpAlue.add(lbAlueNimi, 0, 1);
-        gpAlue.add(tfAlueNimi, 1, 1);
+        gpAlue.add(lbAlueNimi, 0, 0);
+        gpAlue.add(tfAlueNimi, 1, 0);
         gpAlue.setVgap(5);
         gpAlue.setPadding(new Insets(10,10,10,10));
         VBox vbAlue = new VBox();
@@ -90,10 +88,11 @@ public class Kayttoliittyma extends Application {
             //Muokkaa alue tietokannassa
         });
         btAlueHaku.setOnAction(e->{
-            List<Alue> alueetLista = DatabaseUtils.selectAlueetByName(tfAlueNimi.getText());
-            for(Alue alue : alueetLista) {
-                System.out.println(alue.getNimi());
-            }
+            int alue_id = DatabaseUtils.selectAlueetByName(tfAlueNimi.getText());
+            List<Mokki> mokitLista = DatabaseUtils.selectMokitByAlueId(alue_id);
+            lvAlueet.getItems().clear();
+            lvAlueet.getItems().addAll(mokitLista);
+            System.out.println(alue_id);
         });
 
 
@@ -258,12 +257,12 @@ public class Kayttoliittyma extends Application {
 
         //Luodaan palvelut näkymä
         BorderPane palvelut = new BorderPane();
-        ListView lvPalvelut = new ListView();
+        ListView <Palvelu> lvPalvelut = new ListView();
         palvelut.setLeft(lvPalvelut);
         GridPane gpPalvelut = new GridPane();
-        TextField tfPalveluID = new TextField();
+        TextField tfPalveluHaku = new TextField();
 
-        Label lbPalveluID = new Label("Palvelu ID");
+        Label lbPalveluHaku = new Label("Hae palvelua nimellä");
         TextField tfPalveluNimi = new TextField();
 
         Label lbPalveluNimi = new Label("Palvelu nimi");
@@ -280,8 +279,8 @@ public class Kayttoliittyma extends Application {
         Button btMuokkaaPalvelu = new Button("Muokkaa palvelu");
         Button btPoistaPalvelu = new Button("Poista palvelu");
         Button btPalveluHaku = new Button("Hae");
-        gpPalvelut.add(lbPalveluID, 0, 0);
-        gpPalvelut.add(tfPalveluID, 1, 0);
+        gpPalvelut.add(lbPalveluHaku, 0, 0);
+        gpPalvelut.add(tfPalveluHaku, 1, 0);
         gpPalvelut.add(lbPalveluNimi, 0, 1);
         gpPalvelut.add(tfPalveluNimi, 1, 1);
         gpPalvelut.add(lbPalveluHinta, 0, 2);
@@ -306,6 +305,28 @@ public class Kayttoliittyma extends Application {
             palvelut.setTop(hbValikko);
             primaryStage.setScene(palvelutScene);
         });
+
+        btLisaaPalvelu.setOnAction(e->{
+            int alue_id = Integer.parseInt(tfAlueIDPalvelu.getText());
+            String palveluNimi = tfPalveluNimi.getText();
+            double hinta = Double.parseDouble(tfPalveluHinta.getText());
+            String kuvaus = taPalveluKuvaus.getText();
+            DatabaseUtils.insertPalvelu(alue_id, palveluNimi, kuvaus, hinta);
+        });
+        btPalveluHaku.setOnAction(e->{
+            List<Palvelu> palvelutLista = DatabaseUtils.selectPalvelutByName(tfPalveluHaku.getText());
+            lvPalvelut.getItems().clear();
+            lvPalvelut.getItems().addAll(palvelutLista);
+
+        });
+        lvPalvelut.setOnMouseClicked(e->{
+            Palvelu valittuPalvelu = lvPalvelut.getSelectionModel().getSelectedItem();
+            tfAlueIDPalvelu.setText(String.valueOf(valittuPalvelu.getAlue_id()));
+            tfPalveluNimi.setText(valittuPalvelu.getNimi());
+            tfPalveluHinta.setText(String.valueOf(valittuPalvelu.getHinta()));
+            taPalveluKuvaus.setText(valittuPalvelu.getKuvaus());
+        });
+
 
         //Luodaan varaus näkymä
         BorderPane varaus = new BorderPane();

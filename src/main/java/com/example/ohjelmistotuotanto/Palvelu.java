@@ -44,17 +44,11 @@ public class Palvelu {
     }
 
     public String toString() {
-        return "Palvelu{" +
-                "alue_id=" + alue_id +
-                ", nimi='" + nimi + '\'' +
-                ", kuvaus='" + kuvaus + '\'' +
-                ", hinta=" + hinta +
-                ", alv=" + alv +
-                '}';
+        return "Palvelun nimi: "+this.nimi + "\n Alue ID: "+ this.alue_id;
     }
 
-    public static void main(String[] args) {
-        Palvelu palvelu = new Palvelu(1, "Venevuokraus", "Vuokraa vene päiväksi ja nauti järvimaisemista.", 50.00);
-        System.out.println(palvelu);
+
+    public int getAlue_id() {
+        return this.alue_id;
     }
 }
