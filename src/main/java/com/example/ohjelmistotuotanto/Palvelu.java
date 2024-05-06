@@ -49,10 +49,7 @@ public class Palvelu {
 
 
     public int getAlue_id() {
-<<<<<<< Updated upstream
+
         return this.alue_id;
-=======
-    return this.alue_id;
->>>>>>> Stashed changes
     }
 }
