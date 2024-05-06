@@ -184,9 +184,7 @@ public class DatabaseUtils {
             }
         }
     }
-<<<<<<< HEAD
-}
-=======
+
     public static void insertPalvelu(int alue_id, String nimi, String kuvaus, double hinta) {
         Connection conn = null;
         PreparedStatement pstmt = null;
@@ -272,4 +270,3 @@ public class DatabaseUtils {
         return mokit;
     }
 }
->>>>>>> f7f28c157c1fb99b041d0a290b22c5c3838e4748
