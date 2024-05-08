@@ -434,13 +434,14 @@ public class DatabaseUtils {
             pstmt.setString(1, nimi);
             rs = pstmt.executeQuery();
             while (rs.next()) {
+                int id = rs.getInt("asiakas_id");
                 String postinro = rs.getString("postinro");
                 String etunimi = rs.getString("etunimi");
                 String sukunimi = rs.getString("sukunimi");
                 String lahiosoite = rs.getString("lahiosoite");
                 String email = rs.getString("email");
                 String puhelinnro = rs.getString("puhelinnro");
-                asiakas.add(new Asiakas(postinro, etunimi, sukunimi, lahiosoite, email, puhelinnro));
+                asiakas.add(new Asiakas(id, postinro, etunimi, sukunimi, lahiosoite, email, puhelinnro));
             }
         } catch (Exception ex) {
             System.out.println("Error: " + ex.getMessage());
@@ -450,6 +451,30 @@ public class DatabaseUtils {
             close(conn);
         }
         return asiakas;
+    }
+
+    public static void updateAsiakasById(int id, Asiakas muokattavaAsiakas) {
+        Connection conn = null;
+        PreparedStatement pstmt = null;
+        try {
+            conn = getConnection();
+            String sql = "UPDATE asiakas SET etunimi = ?, sukunimi = ?, lahiosoite = ?, email = ?, puhelinnro = ? WHERE asiakas_id = ?";
+            pstmt = conn.prepareStatement(sql);
+            pstmt.setString(1, muokattavaAsiakas.getEtunimi());
+            pstmt.setString(2, muokattavaAsiakas.getSukunimi());
+            pstmt.setString(3, muokattavaAsiakas.getLahiosoite());
+            pstmt.setString(4, muokattavaAsiakas.getEmail());
+            pstmt.setString(5, muokattavaAsiakas.getPuhelinnro());
+            pstmt.setInt(6, id);
+
+            int affectedRows = pstmt.executeUpdate();
+            System.out.println("Inserted " + affectedRows + " rows.");
+        } catch (Exception ex) {
+            System.out.println("Update error: " + ex.getMessage());
+        } finally {
+            close(pstmt);
+            close(conn);
+        }
     }
 
 }

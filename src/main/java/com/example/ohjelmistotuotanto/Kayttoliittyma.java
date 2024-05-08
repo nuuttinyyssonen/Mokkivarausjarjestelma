@@ -13,6 +13,7 @@ import java.time.ZoneId;
 import java.util.List;
 
 public class Kayttoliittyma extends Application {
+    public int asiakas_id;
 
     public static void main(String[] args) {
         launch(args);
@@ -278,6 +279,18 @@ public class Kayttoliittyma extends Application {
             lvAsiakkaat.getItems().clear();
             lvAsiakkaat.getItems().addAll(asiakasLista);
        });
+
+        lvAsiakkaat.setOnMouseClicked(e->{
+            Asiakas valittuAsiakas = (Asiakas) lvAsiakkaat.getSelectionModel().getSelectedItem();
+            tfEtunimi.setText(String.valueOf(valittuAsiakas.getEtunimi()));
+            tfSukunimi.setText(valittuAsiakas.getSukunimi());
+            tfPuhelin.setText(valittuAsiakas.getPuhelinnro());
+            tfLahiosoite.setText(valittuAsiakas.getEmail());
+            tfEmail.setText(String.valueOf(valittuAsiakas.getLahiosoite()));
+            tfPostinro.setText(String.valueOf(valittuAsiakas.getPostinro()));
+            asiakas_id = valittuAsiakas.getId();
+        });
+
         btLisaaAsiakas.setOnAction(e->{
             String etunimi = tfEtunimi.getText();
             String sukunimi = tfSukunimi.getText();
@@ -286,6 +299,11 @@ public class Kayttoliittyma extends Application {
             String lahiosoite = tfLahiosoite.getText();
             String postinro = tfPostinro.getText();
             DatabaseUtils.insertAsiakas(etunimi, sukunimi, puhelin, email, lahiosoite, postinro);
+        });
+
+        btMuokkaaAsiakas.setOnAction(e->{
+            Asiakas muokattavaAsiakas = new Asiakas(asiakas_id, tfPostinro.getText(), tfEtunimi.getText(), tfSukunimi.getText(), tfLahiosoite.getText(), tfEmail.getText(), tfPuhelin.getText());
+            DatabaseUtils.updateAsiakasById(asiakas_id, muokattavaAsiakas);
         });
 
         //Luodaan palvelut näkymä
