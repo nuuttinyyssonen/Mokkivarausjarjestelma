@@ -67,6 +67,10 @@ public class Mokki {
         return henkilomaara;
     }
 
+    public int getMokki_id() {
+        return mokki_id;
+    }
+
     public void setHenkilomaara(int henkilomaara) {
         this.henkilomaara = henkilomaara;
     }

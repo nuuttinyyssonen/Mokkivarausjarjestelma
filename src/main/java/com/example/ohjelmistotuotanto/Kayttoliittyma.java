@@ -105,8 +105,8 @@ public class Kayttoliittyma extends Application {
 
 
         mokit.setLeft(lvMokit);
-        TextField tfMokkiID = new TextField();
-        Label lbMokkiID = new Label("Hae mökkiä nimellä");
+        TextField tfMokkiHae = new TextField();
+        Label lbMokkiHae = new Label("Hae mökkiä nimellä");
         TextField tfMokkiAlueId = new TextField();
         tfMokkiAlueId.setPrefWidth(70);
         Label lbMokkiAlueId = new Label("Alue ID");
@@ -129,12 +129,15 @@ public class Kayttoliittyma extends Application {
         tfOsoite.setPrefWidth(70);
         Label lbOsoite = new Label("Osoite");
         TextField tfHenkilomaara = new TextField();
+        Label lbMokkiID = new Label("Mökin ID");
+        TextField tfMokkiID = new TextField();
         tfHenkilomaara.setPrefWidth(70);
         Label lbHenkilomaara = new Label("Henkilömäärä");
         Button btLisaaMokki = new Button("Lisää mökki");
         Button btMuokkaaMokki = new Button("Muokkaa mökki");
         Button btPoistaMokki = new Button("Poista mökki");
         Button btMokkiHaku = new Button("Hae");
+
 
         lvMokit.setOnMouseClicked(e->{
             Mokki valittuMokki = lvMokit.getSelectionModel().getSelectedItem();
@@ -146,6 +149,7 @@ public class Kayttoliittyma extends Application {
             tfMokkiHinta.setText(String.valueOf(valittuMokki.getHinta()));
             taMokkiKuvaus.setText(valittuMokki.getKuvaus());
             taMokkiVarustelu.setText(valittuMokki.getVarustelu());
+            tfMokkiID.setText(String.valueOf(valittuMokki.getMokki_id()));
         });
 
         btLisaaMokki.setOnAction(e->{
@@ -159,16 +163,28 @@ public class Kayttoliittyma extends Application {
             String varustelu = taMokkiVarustelu.getText();
             DatabaseUtils.insertMokki(alue_id, postinro, mokkiNimi, osoite, hinta, kuvaus, henkilomaara, varustelu);
         });
+        btMuokkaaMokki.setOnAction(e->{
+            int mokki_id = Integer.parseInt((tfMokkiID.getText()));
+            int alue_id = Integer.parseInt(tfMokkiAlueId.getText());
+            String postinro = tfPostnro.getText();
+            String mokkiNimi = tfMokkiNimi.getText();
+            String osoite = tfOsoite.getText();
+            int henkilomaara = Integer.parseInt(tfHenkilomaara.getText());
+            double hinta = Double.parseDouble(tfMokkiHinta.getText());
+            String kuvaus = taMokkiKuvaus.getText();
+            String varustelu = taMokkiVarustelu.getText();
+            DatabaseUtils.updateMokki(mokki_id,alue_id, postinro, mokkiNimi, osoite, hinta, kuvaus, henkilomaara, varustelu);
+        });
 
         btMokkiHaku.setOnAction(e-> {
-            List<Mokki> mokitLista = DatabaseUtils.selectMokitByName(tfMokkiID.getText());
+            List<Mokki> mokitLista = DatabaseUtils.selectMokitByName(tfMokkiHae.getText());
             lvMokit.getItems().clear();
             lvMokit.getItems().addAll(mokitLista);
         });
 
         GridPane gpMokki = new GridPane();
-        gpMokki.add(lbMokkiID, 0, 0);
-        gpMokki.add(tfMokkiID, 1, 0);
+        gpMokki.add(lbMokkiHae, 0, 0);
+        gpMokki.add(tfMokkiHae, 1, 0);
         gpMokki.add(lbMokkiAlueId, 0, 1);
         gpMokki.add(tfMokkiAlueId, 1, 1);
         gpMokki.add(lbPostnro, 0, 2);
@@ -185,6 +201,8 @@ public class Kayttoliittyma extends Application {
         gpMokki.add(taMokkiKuvaus, 1, 7);
         gpMokki.add(lbMokkiVarustelu, 0, 8);
         gpMokki.add(taMokkiVarustelu, 1, 8);
+        gpMokki.add(lbMokkiID, 0, 9);
+        gpMokki.add(tfMokkiID, 1, 9);
         gpMokki.add(btMokkiHaku, 2, 0);
         HBox hbMokkiNapit = new HBox();
         hbMokkiNapit.getChildren().addAll(btLisaaMokki, btMuokkaaMokki, btPoistaMokki);

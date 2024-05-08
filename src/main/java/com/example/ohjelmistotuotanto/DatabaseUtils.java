@@ -398,7 +398,7 @@ public class DatabaseUtils {
         PreparedStatement pstmt = null;
         try{
             conn = getConnection();
-            String sql = "UPDATE mokki SET alue_id = ?, postinro = ?, katuosoite = ?, hinta = ?, kuvaus = ?, henkilomaara = ?, varustelu = ? WHERE mokki_id = ?";
+            String sql = "UPDATE mokki SET alue_id = ?, postinro = ?,mokkinimi = ?, katuosoite = ?, hinta = ?, kuvaus = ?, henkilomaara = ?, varustelu = ? WHERE mokki_id = ?";
             pstmt = conn.prepareStatement(sql);
             pstmt.setInt(1, alue_id);
             pstmt.setString(2, postinro);
