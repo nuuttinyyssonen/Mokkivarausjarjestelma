@@ -422,4 +422,34 @@ public class DatabaseUtils {
         }
     }
 
+    public static List<Asiakas> selectAsiakasByName(String nimi) {
+        List<Asiakas> asiakas = new ArrayList<>();
+        Connection conn = null;
+        PreparedStatement pstmt = null;
+        ResultSet rs = null;
+        try {
+            conn = getConnection();
+            String sql = "SELECT * FROM asiakas WHERE sukunimi = ?";
+            pstmt = conn.prepareStatement(sql);
+            pstmt.setString(1, nimi);
+            rs = pstmt.executeQuery();
+            while (rs.next()) {
+                String postinro = rs.getString("postinro");
+                String etunimi = rs.getString("etunimi");
+                String sukunimi = rs.getString("sukunimi");
+                String lahiosoite = rs.getString("lahiosoite");
+                String email = rs.getString("email");
+                String puhelinnro = rs.getString("puhelinnro");
+                asiakas.add(new Asiakas(postinro, etunimi, sukunimi, lahiosoite, email, puhelinnro));
+            }
+        } catch (Exception ex) {
+            System.out.println("Error: " + ex.getMessage());
+        } finally {
+            close(rs);
+            close(pstmt);
+            close(conn);
+        }
+        return asiakas;
+    }
+
 }

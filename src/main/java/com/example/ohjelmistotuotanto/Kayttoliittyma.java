@@ -255,11 +255,11 @@ public class Kayttoliittyma extends Application {
             primaryStage.setScene(asiakkaatScene);
         });
 
-       // btAsiakasHaku.setOnAction(e->{
-        //    List<Asiakas> asiakasLista = DatabaseUtils.selectAsiakasByName(tfEtunimi.getText());
-          //  lvAsiakkaat.getItems().clear();
-           // lvAsiakkaat.getItems().addAll(asiakasLista);
-       // });
+       btAsiakasHaku.setOnAction(e->{
+            List<Asiakas> asiakasLista = DatabaseUtils.selectAsiakasByName(tfAsiakasHaeNimella.getText());
+            lvAsiakkaat.getItems().clear();
+            lvAsiakkaat.getItems().addAll(asiakasLista);
+       });
         btLisaaAsiakas.setOnAction(e->{
             String etunimi = tfEtunimi.getText();
             String sukunimi = tfSukunimi.getText();
