@@ -393,6 +393,34 @@ public class DatabaseUtils {
             close(conn);
         }
     }
+    public static void updateMokki(int mokki_id, int alue_id, String postinro, String mokkinimi, String katuosoite, double hinta, String kuvaus, int henkilomaara, String varustelu){
+        Connection conn = null;
+        PreparedStatement pstmt = null;
+        try{
+            conn = getConnection();
+            String sql = "UPDATE mokki SET alue_id = ?, postinro = ?, katuosoite = ?, hinta = ?, kuvaus = ?, henkilomaara = ?, varustelu = ? WHERE mokki_id = ?";
+            pstmt = conn.prepareStatement(sql);
+            pstmt.setInt(1, alue_id);
+            pstmt.setString(2, postinro);
+            pstmt.setString(3, mokkinimi);
+            pstmt.setString(4, katuosoite);
+            pstmt.setDouble(5, hinta);
+            pstmt.setString(6, kuvaus);
+            pstmt.setInt(7, henkilomaara);
+            pstmt.setString(8, varustelu);
+            pstmt.setInt(9, mokki_id);
+
+            int affectedRows = pstmt.executeUpdate();
+            System.out.println("Updated " + affectedRows + "rows.");
+
+        }catch (Exception ex){
+            System.out.println("Error: " + ex.getMessage());
+        }finally {
+            close(pstmt);
+            close(conn);
+
+        }
+    }
 
     public static List<Asiakas> selectAsiakasByName(String nimi) {
         List<Asiakas> asiakas = new ArrayList<>();
