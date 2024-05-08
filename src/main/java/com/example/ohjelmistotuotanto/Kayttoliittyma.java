@@ -414,8 +414,8 @@ public class Kayttoliittyma extends Application {
             Varaus valittuVaraus = (Varaus) lvVaraus.getSelectionModel().getSelectedItem();
             tfAsiakasIDVaraus.setText(String.valueOf(valittuVaraus.getAsiakas_id()));
             tfMokkiIDVaraus.setText(String.valueOf(valittuVaraus.getMokki_id()));
-            startDatePicker.setValue(valittuVaraus.getVarattu_alkupvm().toInstant().atZone(ZoneId.systemDefault()).toLocalDate());
-            endDatePicker.setValue(valittuVaraus.getVarattu_loppupvm().toInstant().atZone(ZoneId.systemDefault()).toLocalDate());;
+            endDatePicker.setValue(valittuVaraus.getVarattu_loppupvm());
+            startDatePicker.setValue(valittuVaraus.getVarattu_alkupvm());
         });
         btLisaaVaraus.setOnAction(e->{
             int asiakas_id = Integer.parseInt(tfAsiakasIDVaraus.getText());

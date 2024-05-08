@@ -129,7 +129,7 @@ public class DatabaseUtils {
                 Date vahvistus_pvm = rs.getDate("vahvistus_pvm");
                 Date varattu_alkupvm = rs.getDate("varattu_alkupvm");
                 Date varattu_loppupvm = rs.getDate("varattu_loppupvm");
-                varaukset.add(new Varaus(asiakas_id, mokkiId, varattu_pvm, vahvistus_pvm, varattu_alkupvm, varattu_loppupvm));
+                varaukset.add(new Varaus(asiakas_id, mokkiId, varattu_alkupvm.toLocalDate(), varattu_loppupvm.toLocalDate(), varattu_pvm.toLocalDate(), vahvistus_pvm.toLocalDate()));
             }
         } catch (Exception ex) {
             System.out.println("Error: " + ex.getMessage());
@@ -154,7 +154,6 @@ public class DatabaseUtils {
             rs = pstmt.executeQuery();
 
             while (rs.next()) {
-                int id = rs.getInt("mokki_id");
                 int alue_id = rs.getInt("alue_id");
                 String mokkinimi = rs.getString("mokkinimi");
                 String postinro = rs.getString("postinro");
@@ -163,7 +162,8 @@ public class DatabaseUtils {
                 String kuvaus = rs.getString("kuvaus");
                 int henkilomaara = rs.getInt("henkilomaara");
                 String varustelu = rs.getString("varustelu");
-                mokit.add(new Mokki(alue_id, postinro, mokkinimi, katuosoite, hinta, kuvaus, henkilomaara, varustelu));
+                int mokki_id = rs.getInt("mokki_id");
+                mokit.add(new Mokki(mokki_id, alue_id, postinro, mokkinimi, katuosoite, hinta, kuvaus, henkilomaara, varustelu));
             }
         } catch (Exception ex) {
             System.out.println("Error: " + ex.getMessage());
