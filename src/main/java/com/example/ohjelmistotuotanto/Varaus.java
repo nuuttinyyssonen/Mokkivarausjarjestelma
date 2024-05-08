@@ -1,22 +1,23 @@
 package com.example.ohjelmistotuotanto;
 
+import java.time.LocalDate;
 import java.util.Date;
 
 public class Varaus {
     private int asiakas_id;
     private int mokki_id;
-    private Date varattu_pvm;
-    private Date vahvistus_pvm;
-    private Date varattu_alkupvm;
-    private Date varattu_loppupvm;
+    private LocalDate varattu_pvm;
+    private LocalDate vahvistus_pvm;
+    private LocalDate varattu_alkupvm;
+    private LocalDate varattu_loppupvm;
 
-    public Varaus(int asiakas_id, int mokki_id, Date varattu_alkupvm, Date varattu_loppupvm, Date varattu_pvm, Date vahvistus_pvm) {
+    public Varaus(int asiakas_id, int mokki_id, LocalDate varattu_alkupvmu, LocalDate varattu_loppupvmu, LocalDate varattu_pvm, LocalDate vahvistus_pvm) {
         this.asiakas_id = asiakas_id;
         this.mokki_id = mokki_id;
         this.varattu_pvm = varattu_pvm;
         this.vahvistus_pvm = vahvistus_pvm;
-        this.varattu_alkupvm = varattu_alkupvm;
-        this.varattu_loppupvm = varattu_loppupvm;
+        this.varattu_alkupvm = varattu_alkupvmu;
+        this.varattu_loppupvm = varattu_loppupvmu;
     }
 
     public int getAsiakas_id() {
@@ -27,27 +28,27 @@ public class Varaus {
         return mokki_id;
     }
 
-    public Date getVarattu_pvm() {
+    public LocalDate getVarattu_pvm() {
         return this.varattu_pvm;
     }
 
-    public Date getVahvistus_pvm() {
+    public LocalDate getVahvistus_pvm() {
         return this.vahvistus_pvm;
     }
 
-    public Date getVarattu_alkupvm() {
+    public LocalDate getVarattu_alkupvm() {
         return this.varattu_alkupvm;
     }
 
-    public Date getVarattu_loppupvm() {
+    public LocalDate getVarattu_loppupvm() {
         return this.varattu_loppupvm;
     }
 
-    public void setVarattu_alkupvm(Date varattu_alkupvm) {
+    public void setVarattu_alkupvm(LocalDate varattu_alkupvm) {
         this.varattu_alkupvm = varattu_alkupvm;
     }
 
-    public void setVarattu_loppupvm(Date varattu_loppupvm) {
+    public void setVarattu_loppupvm(LocalDate varattu_loppupvm) {
         this.varattu_loppupvm = varattu_loppupvm;
     }
 

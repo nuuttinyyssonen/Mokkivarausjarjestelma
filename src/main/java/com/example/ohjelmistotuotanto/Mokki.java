@@ -2,6 +2,7 @@ package com.example.ohjelmistotuotanto;
 
 public class Mokki {
     private int alue_id;
+    private  int mokki_id;
     private String postinro;
     private String mokkinimi;
     private String katuosoite;
@@ -10,9 +11,10 @@ public class Mokki {
     private int henkilomaara;
     private String varustelu;
 
-    public Mokki(int alue_id, String postinro, String mokkinimi, String katuosoite,
+    public Mokki( int mokki_id,int alue_id, String postinro, String mokkinimi, String katuosoite,
                  double hinta, String kuvaus, int henkilomaara, String varustelu) {
         this.alue_id = alue_id;
+        this.mokki_id = mokki_id;
         this.postinro = postinro;
         this.mokkinimi = mokkinimi;
         this.katuosoite = katuosoite;
@@ -82,9 +84,5 @@ public class Mokki {
         return "Mökin nimi: " + mokkinimi + "\n" + "Alueen nimi: "+alueenNimi;
     }
 
-    public static void main(String[] args) {
-        Mokki mokki = new Mokki(1, "12345", "Kesämökki", "Mökkitie 123", 150.00,
-                "Viihtyisä mökki järven rannalla", 4, "Sauna, vene");
-        System.out.println(mokki);
-    }
+
 }
