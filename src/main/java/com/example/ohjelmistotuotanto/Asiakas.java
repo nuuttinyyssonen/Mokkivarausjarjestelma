@@ -1,6 +1,7 @@
 package com.example.ohjelmistotuotanto;
 
 public class Asiakas {
+    private int id;
     private String postinro;
     private String etunimi;
     private String sukunimi;
@@ -8,7 +9,8 @@ public class Asiakas {
     private String email;
     private String puhelinnro;
 
-    public Asiakas(String postinro, String etunimi, String sukunimi, String lahiosoite, String email, String puhelinnro) {
+    public Asiakas(int id, String postinro, String etunimi, String sukunimi, String lahiosoite, String email, String puhelinnro) {
+        this.id = id;
         this.postinro = postinro;
         this.etunimi = etunimi;
         this.sukunimi = sukunimi;
@@ -17,6 +19,7 @@ public class Asiakas {
         this.puhelinnro = puhelinnro;
     }
 
+    public int getId() { return this.id; }
     public String getPostinro() {
         return this.postinro;
     }
@@ -70,7 +73,7 @@ public class Asiakas {
     }
 
     public static void main(String[] args) {
-        Asiakas testi = new Asiakas("70870", "Nuutti", "Nyyssönen", "Keilanrinteenkatu 8 A 34", "nuutti.nyyssonen@gmail.com", "+358453577988");
+        Asiakas testi = new Asiakas(1,"70870", "Nuutti", "Nyyssönen", "Keilanrinteenkatu 8 A 34", "nuutti.nyyssonen@gmail.com", "+358453577988");
         System.out.println(testi.getPuhelinnro());
         testi.setPuhelinnro("0453577988");
         System.out.println(testi.toString());
