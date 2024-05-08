@@ -1,10 +1,6 @@
 package com.example.ohjelmistotuotanto;
 
-<<<<<<< HEAD
-=======
-import java.sql.*;
 
->>>>>>> f7f28c157c1fb99b041d0a290b22c5c3838e4748
 import java.sql.*;
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -113,6 +109,36 @@ public class DatabaseUtils {
             close(pstmt);
             close(conn);
         }
+    }
+    public static List<Varaus> selectVarausByMokkiID(int mokki_id) {
+        List<Varaus> varaukset = new ArrayList<>();
+        Connection conn = null;
+        PreparedStatement pstmt = null;
+        ResultSet rs = null;
+        try {
+            conn = getConnection();
+            String sql = "SELECT * FROM varaus WHERE mokki_id = ?";
+            pstmt = conn.prepareStatement(sql);
+            pstmt.setInt(1, mokki_id);
+            rs = pstmt.executeQuery();
+
+            while (rs.next()) {
+                int asiakas_id = rs.getInt("asiakas_id");
+                int mokkiId = rs.getInt("mokki_id");
+                Date varattu_pvm = rs.getDate("varattu_pvm");
+                Date vahvistus_pvm = rs.getDate("vahvistus_pvm");
+                Date varattu_alkupvm = rs.getDate("varattu_alkupvm");
+                Date varattu_loppupvm = rs.getDate("varattu_loppupvm");
+                varaukset.add(new Varaus(asiakas_id, mokkiId, varattu_pvm, vahvistus_pvm, varattu_alkupvm, varattu_loppupvm));
+            }
+        } catch (Exception ex) {
+            System.out.println("Error: " + ex.getMessage());
+        } finally {
+            close(rs);
+            close(pstmt);
+            close(conn);
+        }
+        return varaukset;
     }
 
     public static List<Mokki> selectMokitByName(String name) {
@@ -235,6 +261,31 @@ public class DatabaseUtils {
         }
         return palvelut;
     }
+    public static String getMokkiIdByMokkiName(String name){
+        Connection conn = null;
+        PreparedStatement pstmt = null;
+        ResultSet rs = null;
+        String mokki_id = "";
+        try {
+            conn = getConnection();
+            String sql = "SELECT * FROM mokki WHERE mokkinimi = ?";
+            pstmt = conn.prepareStatement(sql);
+            pstmt.setString(1, name);
+            rs = pstmt.executeQuery();
+            while (rs.next()) {
+                mokki_id = rs.getString("mokki_id");
+
+            }
+
+        } catch (Exception ex) {
+            System.out.println("Error: " + ex.getMessage());
+        } finally {
+            close(rs);
+            close(pstmt);
+            close(conn);
+        }
+        return mokki_id;
+    }
     public static List<Mokki> selectMokitByAlueId(int alueid) {
         List<Mokki> mokit = new ArrayList<>();
         Connection conn = null;
@@ -269,4 +320,78 @@ public class DatabaseUtils {
         }
         return mokit;
     }
+    public static String getMokkiNameByMokkiID(int mokki_id){
+        Connection conn = null;
+        PreparedStatement pstmt = null;
+        ResultSet rs = null;
+        String mokkinimi = "";
+        try {
+            conn = getConnection();
+            String sql = "SELECT * FROM mokki WHERE mokki_id = ?";
+            pstmt = conn.prepareStatement(sql);
+            pstmt.setInt(1, mokki_id);
+            rs = pstmt.executeQuery();
+            while (rs.next()) {
+                mokkinimi = rs.getString("mokkinimi");
+
+            }
+
+        } catch (Exception ex) {
+            System.out.println("Error: " + ex.getMessage());
+        } finally {
+            close(rs);
+            close(pstmt);
+            close(conn);
+        }
+    return mokkinimi;
+    }
+    public static String getAlueNameByAlueID(int alue_id){
+        Connection conn = null;
+        PreparedStatement pstmt = null;
+        ResultSet rs = null;
+        String alue_nimi = "";
+        try {
+            conn = getConnection();
+            String sql = "SELECT * FROM alue WHERE alue_id = ?";
+            pstmt = conn.prepareStatement(sql);
+            pstmt.setInt(1, alue_id);
+            rs = pstmt.executeQuery();
+            while (rs.next()) {
+                alue_nimi = rs.getString("nimi");
+
+            }
+        } catch (Exception ex) {
+            System.out.println("Error: " + ex.getMessage());
+        } finally {
+            close(rs);
+            close(pstmt);
+            close(conn);
+        }
+        return alue_nimi;
+    }
+    public static void insertAsiakas(String etunimi, String sukunimi, String puhelinnro, String email, String lahiosoite, String postinro) {
+        Connection conn = null;
+        PreparedStatement pstmt = null;
+        try {
+            conn = getConnection();
+            String sql = "INSERT INTO asiakas (etunimi, sukunimi, puhelinnro, email, lahiosoite , postinro) VALUES (?, ?, ?, ?,?,?)";
+            pstmt = conn.prepareStatement(sql);
+            pstmt.setString(1, etunimi);
+            pstmt.setString(2, sukunimi);
+            pstmt.setString(3, puhelinnro);
+            pstmt.setString(4, email);
+            pstmt.setString(5, lahiosoite);
+            pstmt.setString(6, postinro);
+
+
+            int affectedRows = pstmt.executeUpdate();
+            System.out.println("Inserted " + affectedRows + " rows.");
+        } catch (Exception ex) {
+            System.out.println("Error: " + ex.getMessage());
+        } finally {
+            close(pstmt);
+            close(conn);
+        }
+    }
+
 }

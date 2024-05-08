@@ -78,7 +78,8 @@ public class Mokki {
     }
 
     public String toString() {
-        return "Mökin nimi: " + mokkinimi + "\n" + "Alue ID: " + alue_id;
+        String alueenNimi = DatabaseUtils.getAlueNameByAlueID(this.alue_id);
+        return "Mökin nimi: " + mokkinimi + "\n" + "Alueen nimi: "+alueenNimi;
     }
 
     public static void main(String[] args) {

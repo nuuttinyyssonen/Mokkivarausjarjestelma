@@ -9,6 +9,7 @@ import javafx.scene.layout.*;
 import javafx.stage.Stage;
 
 import java.time.LocalDate;
+import java.time.ZoneId;
 import java.util.List;
 
 public class Kayttoliittyma extends Application {
@@ -92,7 +93,6 @@ public class Kayttoliittyma extends Application {
             List<Mokki> mokitLista = DatabaseUtils.selectMokitByAlueId(alue_id);
             lvAlueet.getItems().clear();
             lvAlueet.getItems().addAll(mokitLista);
-            System.out.println(alue_id);
         });
 
 
@@ -205,8 +205,8 @@ public class Kayttoliittyma extends Application {
         BorderPane asiakkaat = new BorderPane();
         ListView lvAsiakkaat = new ListView();
         asiakkaat.setLeft(lvAsiakkaat);
-        TextField tfAsiakasID = new TextField();
-        Label lbAsiakasID = new Label("Asiakas ID");
+        TextField tfAsiakasHaeNimella = new TextField();
+        Label lbAsiakasHaeNimella = new Label("Hae nimellä");
         TextField tfEtunimi = new TextField();
         Label lbEtunimi = new Label("Etunimi");
         TextField tfSukunimi = new TextField();
@@ -220,8 +220,8 @@ public class Kayttoliittyma extends Application {
         TextField tfPostinro = new TextField();
         Label lbPostinro = new Label("Postinumero");
         GridPane gpAsiakas = new GridPane();
-        gpAsiakas.add(lbAsiakasID, 0, 0);
-        gpAsiakas.add(tfAsiakasID, 1, 0);
+        gpAsiakas.add(lbAsiakasHaeNimella, 0, 0);
+        gpAsiakas.add(tfAsiakasHaeNimella, 1, 0);
         gpAsiakas.add(lbEtunimi, 0, 1);
         gpAsiakas.add(tfEtunimi, 1, 1);
         gpAsiakas.add(lbSukunimi, 0, 2);
@@ -253,6 +253,21 @@ public class Kayttoliittyma extends Application {
         btAsiakkaat.setOnAction(e->{
             asiakkaat.setTop(hbValikko);
             primaryStage.setScene(asiakkaatScene);
+        });
+
+       // btAsiakasHaku.setOnAction(e->{
+        //    List<Asiakas> asiakasLista = DatabaseUtils.selectAsiakasByName(tfEtunimi.getText());
+          //  lvAsiakkaat.getItems().clear();
+           // lvAsiakkaat.getItems().addAll(asiakasLista);
+       // });
+        btLisaaAsiakas.setOnAction(e->{
+            String etunimi = tfEtunimi.getText();
+            String sukunimi = tfSukunimi.getText();
+            String puhelin = tfPuhelin.getText();
+            String email = tfEmail.getText();
+            String lahiosoite = tfLahiosoite.getText();
+            String postinro = tfPostinro.getText();
+            DatabaseUtils.insertAsiakas(etunimi, sukunimi, puhelin, email, lahiosoite, postinro);
         });
 
         //Luodaan palvelut näkymä
@@ -388,6 +403,26 @@ public class Kayttoliittyma extends Application {
         btVaraus.setOnAction(e->{
             varaus.setTop(hbValikko);
             primaryStage.setScene(varausScene);
+        });
+        btVarausHaku.setOnAction(e->{
+            int mokki_id = Integer.parseInt(DatabaseUtils.getMokkiIdByMokkiName(tfVarausID.getText()));
+            List<Varaus> varausLista = DatabaseUtils.selectVarausByMokkiID(mokki_id);
+            lvVaraus.getItems().clear();
+            lvVaraus.getItems().addAll(varausLista);
+        });
+        lvVaraus.setOnMouseClicked(e->{
+            Varaus valittuVaraus = (Varaus) lvVaraus.getSelectionModel().getSelectedItem();
+            tfAsiakasIDVaraus.setText(String.valueOf(valittuVaraus.getAsiakas_id()));
+            tfMokkiIDVaraus.setText(String.valueOf(valittuVaraus.getMokki_id()));
+            startDatePicker.setValue(valittuVaraus.getVarattu_alkupvm().toInstant().atZone(ZoneId.systemDefault()).toLocalDate());
+            endDatePicker.setValue(valittuVaraus.getVarattu_loppupvm().toInstant().atZone(ZoneId.systemDefault()).toLocalDate());;
+        });
+        btLisaaVaraus.setOnAction(e->{
+            int asiakas_id = Integer.parseInt(tfAsiakasIDVaraus.getText());
+            int mokki_id = Integer.parseInt(tfMokkiIDVaraus.getText());
+            LocalDate varattu_pvm_alku = startDatePicker.getValue();
+            LocalDate varattu_pvm_loppu = endDatePicker.getValue();
+            DatabaseUtils.insertVaraus(asiakas_id, mokki_id, varattu_pvm_alku, varattu_pvm_loppu);
         });
 
     }
