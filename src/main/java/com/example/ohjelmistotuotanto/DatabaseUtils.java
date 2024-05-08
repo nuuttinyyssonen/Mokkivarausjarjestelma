@@ -477,4 +477,56 @@ public class DatabaseUtils {
         }
     }
 
+    public static void deleteAsiakasById(int id) {
+        Connection conn = null;
+        PreparedStatement pstmt = null;
+        try {
+            deleteVarausByAsiakasId(id);
+            conn = getConnection();
+            String sql = "DELETE asiakas FROM asiakas WHERE asiakas_id = ?";
+            pstmt = conn.prepareStatement(sql);
+            pstmt.setInt(1, id);
+            int affectedRows = pstmt.executeUpdate();
+            System.out.println("Inserted " + affectedRows + " rows.");
+        } catch (Exception ex) {
+            System.out.println("Delete error: " + ex.getMessage());
+        } finally {
+            close(pstmt);
+            close(conn);
+        }
+    }
+
+    public static void deleteVarausByAsiakasId(int asiakas_id) {
+        Connection conn = null;
+        PreparedStatement pstmt = null;
+        PreparedStatement deleteStmt = null;
+        ResultSet rs = null;
+        try {
+            conn = getConnection();
+            conn.setAutoCommit(false);
+
+            String sql = "SELECT varaus_id FROM varaus WHERE asiakas_id = ?";
+            pstmt = conn.prepareStatement(sql);
+            pstmt.setInt(1, asiakas_id);
+            rs = pstmt.executeQuery();
+
+            String sql_delete = "DELETE FROM varaus WHERE varaus_id = ?";
+            deleteStmt = conn.prepareStatement(sql_delete);
+
+            while (rs.next()) {
+                int varaus_id = rs.getInt("varaus_id");
+                deleteStmt.setInt(1, varaus_id);
+                deleteStmt.executeUpdate();
+            }
+
+            conn.commit();
+            System.out.println("All related varaus records deleted.");
+        } catch (Exception ex) {
+            System.out.println("Delete error: " + ex.getMessage());
+        } finally {
+            close(pstmt);
+            close(conn);
+        }
+    }
+
 }

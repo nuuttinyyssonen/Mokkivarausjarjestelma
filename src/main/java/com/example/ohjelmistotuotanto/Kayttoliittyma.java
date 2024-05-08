@@ -284,8 +284,20 @@ public class Kayttoliittyma extends Application {
         });
 
         btMuokkaaAsiakas.setOnAction(e->{
+            if(asiakas_id == 0) {
+                System.out.println("here");
+                return;
+            }
             Asiakas muokattavaAsiakas = new Asiakas(asiakas_id, tfPostinro.getText(), tfEtunimi.getText(), tfSukunimi.getText(), tfLahiosoite.getText(), tfEmail.getText(), tfPuhelin.getText());
             DatabaseUtils.updateAsiakasById(asiakas_id, muokattavaAsiakas);
+        });
+
+        btPoistaAsiakas.setOnAction(e->{
+            if(asiakas_id == 0) {
+                System.out.println("here");
+                return;
+            }
+            DatabaseUtils.deleteAsiakasById(asiakas_id);
         });
 
         //Luodaan palvelut näkymä
