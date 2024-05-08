@@ -1,14 +1,14 @@
 package com.example.ohjelmistotuotanto;
 
 public class Asiakas {
-    private int postinro;
+    private String postinro;
     private String etunimi;
     private String sukunimi;
     private String lahiosoite;
     private String email;
     private String puhelinnro;
 
-    public Asiakas(int postinro, String etunimi, String sukunimi, String lahiosoite, String email, String puhelinnro) {
+    public Asiakas(String postinro, String etunimi, String sukunimi, String lahiosoite, String email, String puhelinnro) {
         this.postinro = postinro;
         this.etunimi = etunimi;
         this.sukunimi = sukunimi;
@@ -17,7 +17,7 @@ public class Asiakas {
         this.puhelinnro = puhelinnro;
     }
 
-    public int getPostinro() {
+    public String getPostinro() {
         return this.postinro;
     }
 
@@ -41,7 +41,7 @@ public class Asiakas {
         return this.puhelinnro;
     }
 
-    public void setPostinro(int postinro) {
+    public void setPostinro(String postinro) {
         this.postinro = postinro;
     }
 
@@ -66,18 +66,11 @@ public class Asiakas {
     }
 
     public String toString() {
-        return "Asiakas{" +
-                ", postinro=" + postinro +
-                ", etunimi='" + etunimi + '\'' +
-                ", sukunimi='" + sukunimi + '\'' +
-                ", lahiosoite='" + lahiosoite + '\'' +
-                ", email='" + email + '\'' +
-                ", puhelinnro='" + puhelinnro + '\'' +
-                '}';
+        return "Asiakas: " + etunimi + " " + sukunimi;
     }
 
     public static void main(String[] args) {
-        Asiakas testi = new Asiakas(70870, "Nuutti", "Nyyssönen", "Keilanrinteenkatu 8 A 34", "nuutti.nyyssonen@gmail.com", "+358453577988");
+        Asiakas testi = new Asiakas("70870", "Nuutti", "Nyyssönen", "Keilanrinteenkatu 8 A 34", "nuutti.nyyssonen@gmail.com", "+358453577988");
         System.out.println(testi.getPuhelinnro());
         testi.setPuhelinnro("0453577988");
         System.out.println(testi.toString());
