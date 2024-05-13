@@ -16,6 +16,7 @@ public class Kayttoliittyma extends Application {
     public int asiakas_id;
     public int mokki_id;
     public int palvelu_id_delete;
+    public int alue_id_to_use;
 
     public static void main(String[] args) {
         launch(args);
@@ -91,17 +92,21 @@ public class Kayttoliittyma extends Application {
 
         });
         btMuokkaaAlue.setOnAction(e->{
-            int alueenId = DatabaseUtils.selectAlueetByName(tfAlueNimi.getText());
-            String alueenNimi = tfAlueeenNimi.getText();
-            DatabaseUtils.updateAlue(alueenId, alueenNimi);
-
+            if(alue_id_to_use == 0) {
+                return;
+            }
+            DatabaseUtils.updateAlue(alue_id_to_use, tfAlueeenNimi.getText());
         });
         btAlueHaku.setOnAction(e->{
-            tfAlueeenNimi.setText(tfAlueNimi.getText());
-            int alue_id = DatabaseUtils.selectAlueetByName(tfAlueNimi.getText());
-            List<Mokki> mokitLista = DatabaseUtils.selectMokitByAlueId(alue_id);
+            List<Alue> alueetlista = DatabaseUtils.selectAlue(tfAlueNimi.getText());
             lvAlueet.getItems().clear();
-            lvAlueet.getItems().addAll(mokitLista);
+            lvAlueet.getItems().addAll(alueetlista);
+        });
+
+        lvAlueet.setOnMouseClicked(e->{
+            Alue valittuAlue = (Alue) lvAlueet.getSelectionModel().getSelectedItem();
+            tfAlueeenNimi.setText(String.valueOf(valittuAlue.getAlue_id()));
+            alue_id_to_use = valittuAlue.getAlue_id();
         });
 
 

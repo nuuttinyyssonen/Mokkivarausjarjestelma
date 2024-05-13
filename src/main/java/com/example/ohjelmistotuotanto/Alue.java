@@ -20,4 +20,8 @@ public class Alue {
     public void setNimi(String nimi) {
         this.nimi = nimi;
     }
+
+    public String toString() {
+        return "Alue: " + nimi + " " + alue_id;
+    }
 }

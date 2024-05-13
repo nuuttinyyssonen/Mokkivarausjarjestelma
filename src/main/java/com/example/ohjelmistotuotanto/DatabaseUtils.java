@@ -154,7 +154,6 @@ public class DatabaseUtils {
             rs = pstmt.executeQuery();
             while (rs.next()) {
                 asiakas_id = rs.getInt("asiakas_id");
-
             }
 
         } catch (Exception ex) {
@@ -274,7 +273,6 @@ public class DatabaseUtils {
             while (rs.next()) {
                 alue_id = rs.getInt("alue_id");
                 alueenNimi = rs.getString("nimi");
-
             }
         } catch (Exception ex) {
             System.out.println("Error: " + ex.getMessage());
@@ -284,6 +282,33 @@ public class DatabaseUtils {
             close(conn);
         }
         return alue_id;
+    }
+
+    public static List<Alue> selectAlue(String nimi) {
+        List<Alue> alue = new ArrayList<>();
+        Connection conn = null;
+        PreparedStatement pstmt = null;
+        ResultSet rs = null;
+        try {
+            conn = getConnection();
+            String sql = "SELECT * FROM alue WHERE nimi = ?";
+            pstmt = conn.prepareStatement(sql);
+            pstmt.setString(1, nimi);
+            rs = pstmt.executeQuery();
+            while (rs.next()) {
+                int id = rs.getInt("alue_id");
+                String alue_nimi = rs.getString("nimi");
+                alue.add(new Alue(alue_nimi, id));
+            }
+            System.out.println("here" + alue);
+        } catch (Exception ex) {
+            System.out.println("Error: " + ex.getMessage());
+        } finally {
+            close(rs);
+            close(pstmt);
+            close(conn);
+        }
+        return alue;
     }
 
     private static void close(AutoCloseable ac) {
@@ -721,15 +746,14 @@ public class DatabaseUtils {
         Connection conn = null;
         PreparedStatement pstmt = null;
         try{
+            System.out.println(alue_id + nimi);
             conn = getConnection();
             String sql = "UPDATE alue SET nimi = ? WHERE alue_id = ?";
             pstmt = conn.prepareStatement(sql);
             pstmt.setString(1, nimi);
             pstmt.setInt(2, alue_id);
-
             int affectedRows = pstmt.executeUpdate();
             System.out.println("Updated " + affectedRows + "rows.");
-
         }catch (Exception ex){
             System.out.println("Error: " + ex.getMessage());
         }finally {
