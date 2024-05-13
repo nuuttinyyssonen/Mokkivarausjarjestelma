@@ -344,6 +344,32 @@ public class DatabaseUtils {
         }
     }
 
+    public static void updatePaveluById(int Id, int alue_id, String nimi, String kuvaus, double hinta) {
+        Connection conn = null;
+        PreparedStatement pstmt = null;
+        try{
+            conn = getConnection();
+            String sql = "UPDATE palvelu SET alue_id = ?, nimi = ?, kuvaus = ?, hinta = ?, alv = ? WHERE palvelu_id = ?";
+            double alv = hinta * 0.10;
+            pstmt = conn.prepareStatement(sql);
+            pstmt.setInt(1, alue_id);
+            pstmt.setString(2, nimi);
+            pstmt.setString(3, kuvaus);
+            pstmt.setDouble(4, hinta);
+            pstmt.setDouble(5, alv);
+            pstmt.setInt(6, Id);
+            int affectedRows = pstmt.executeUpdate();
+            System.out.println("Updated " + affectedRows + "rows.");
+
+        }catch (Exception ex){
+            System.out.println("Error: " + ex.getMessage());
+        }finally {
+            close(pstmt);
+            close(conn);
+
+        }
+    }
+
     public static String getMokkiIdByMokkiName(String name){
         Connection conn = null;
         PreparedStatement pstmt = null;
@@ -691,7 +717,6 @@ public class DatabaseUtils {
         PreparedStatement pstmt = null;
         try {
             conn = getConnection();
-            sele
             selectMokitByAlueId(id).forEach(mokki -> deleteMokkiById(mokki.getMokki_id()));
             deleteMokkiById(id);
             String sql = "DELETE alue FROM alue WHERE alue_id = ?";

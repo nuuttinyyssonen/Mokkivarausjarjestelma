@@ -405,11 +405,16 @@ public class Kayttoliittyma extends Application {
             palvelu_id_delete = valittuPalvelu.getId();
         });
 
+        btMuokkaaPalvelu.setOnAction(e->{
+            int alue_id_update = Integer.parseInt(tfAlueIDPalvelu.getText());
+            double hinta_update = Double.parseDouble(tfPalveluHinta.getText());
+            DatabaseUtils.updatePaveluById(palvelu_id_delete, alue_id_update, tfPalveluNimi.getText(), taPalveluKuvaus.getText(), hinta_update);
+        });
+
         btPoistaPalvelu.setOnAction(e->{
             if(palvelu_id_delete == 0) {
                 return;
             }
-            System.out.println(palvelu_id_delete);
             DatabaseUtils.deletePalveluById(palvelu_id_delete);
         });
 
