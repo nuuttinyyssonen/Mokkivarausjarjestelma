@@ -53,6 +53,8 @@ public class Kayttoliittyma extends Application {
 
         TextField tfAlueNimi = new TextField();
         Label lbAlueNimi = new Label("Hae nimellä");
+        TextField tfAlueeenNimi = new TextField();
+        Label lbAlueenNimi = new Label("Alueen nimi");
         Button btLisaaAlue = new Button("Lisää alue");
         Button btMuokkaaAlue = new Button("Muokkaa alue");
         Button btPoistaAlue = new Button("Poista alue");
@@ -66,6 +68,8 @@ public class Kayttoliittyma extends Application {
         gpAlue.add(btAlueHaku, 2, 0);
         gpAlue.add(lbAlueNimi, 0, 0);
         gpAlue.add(tfAlueNimi, 1, 0);
+        gpAlue.add(lbAlueenNimi, 0, 1);
+        gpAlue.add(tfAlueeenNimi, 1, 1);
         gpAlue.setVgap(5);
         gpAlue.setPadding(new Insets(10,10,10,10));
         VBox vbAlue = new VBox();
@@ -81,16 +85,20 @@ public class Kayttoliittyma extends Application {
             primaryStage.setScene(alueetScene);
         });
         btLisaaAlue.setOnAction(e->{
-            String alueNimi = tfAlueNimi.getText();
+            String alueNimi = tfAlueeenNimi.getText();
             DatabaseUtils.insertAlue(alueNimi);
         });
         btPoistaAlue.setOnAction(e->{
             //Poista alue tietokannasta
         });
         btMuokkaaAlue.setOnAction(e->{
-            //Muokkaa alue tietokannassa
+            int alueenId = DatabaseUtils.selectAlueetByName(tfAlueNimi.getText());
+            String alueenNimi = tfAlueeenNimi.getText();
+            DatabaseUtils.updateAlue(alueenId, alueenNimi);
+
         });
         btAlueHaku.setOnAction(e->{
+            tfAlueeenNimi.setText(tfAlueNimi.getText());
             int alue_id = DatabaseUtils.selectAlueetByName(tfAlueNimi.getText());
             List<Mokki> mokitLista = DatabaseUtils.selectMokitByAlueId(alue_id);
             lvAlueet.getItems().clear();

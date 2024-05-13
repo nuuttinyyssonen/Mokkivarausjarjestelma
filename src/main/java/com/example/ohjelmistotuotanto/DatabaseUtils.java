@@ -180,6 +180,7 @@ public class DatabaseUtils {
         PreparedStatement pstmt = null;
         ResultSet rs = null;
         int alue_id = 0;
+        String alueenNimi = "";
         try {
             conn = getConnection();
             String sql = "SELECT * FROM alue WHERE nimi = ?";
@@ -189,6 +190,7 @@ public class DatabaseUtils {
 
             while (rs.next()) {
                 alue_id = rs.getInt("alue_id");
+                alueenNimi = rs.getString("nimi");
 
             }
         } catch (Exception ex) {
@@ -369,6 +371,7 @@ public class DatabaseUtils {
         }
         return alue_nimi;
     }
+
     public static void insertAsiakas(String etunimi, String sukunimi, String puhelinnro, String email, String lahiosoite, String postinro) {
         Connection conn = null;
         PreparedStatement pstmt = null;
@@ -579,5 +582,44 @@ public class DatabaseUtils {
             close(conn);
         }
     }
+    public static void updateAlue(int alue_id, String nimi){
+        Connection conn = null;
+        PreparedStatement pstmt = null;
+        try{
+            conn = getConnection();
+            String sql = "UPDATE alue SET nimi = ? WHERE alue_id = ?";
+            pstmt = conn.prepareStatement(sql);
+            pstmt.setString(1, nimi);
+            pstmt.setInt(2, alue_id);
 
+            int affectedRows = pstmt.executeUpdate();
+            System.out.println("Updated " + affectedRows + "rows.");
+
+        }catch (Exception ex){
+            System.out.println("Error: " + ex.getMessage());
+        }finally {
+            close(pstmt);
+            close(conn);
+
+        }
+    }
+    public static void deleteAlueById(int id) {
+        Connection conn = null;
+        PreparedStatement pstmt = null;
+        try {
+            conn = getConnection();
+            sele
+            deleteMokkiById(id);
+            String sql = "DELETE alue FROM alue WHERE alue_id = ?";
+            pstmt = conn.prepareStatement(sql);
+            pstmt.setInt(1, id);
+            int affectedRows = pstmt.executeUpdate();
+            System.out.println("Inserted " + affectedRows + " rows.");
+        } catch (Exception ex) {
+            System.out.println("Delete error: " + ex.getMessage());
+        } finally {
+            close(pstmt);
+            close(conn);
+        }
+    }
 }
