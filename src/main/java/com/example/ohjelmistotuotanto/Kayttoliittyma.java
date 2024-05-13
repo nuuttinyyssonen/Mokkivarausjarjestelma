@@ -411,8 +411,10 @@ public class Kayttoliittyma extends Application {
         ListView lvVaraus = new ListView();
         varaus.setLeft(lvVaraus);
         Scene varausScene = new Scene(varaus, 700, 700);
-        TextField tfVarausID = new TextField();
-        Label lbVarausID = new Label("Hae mökkiä nimellä ");
+        TextField tfVarausHaeMokilla = new TextField();
+        Label lbVarausHaeMokilla = new Label("Hae mökin nimellä ");
+        TextField tfVarausHaeSnimella = new TextField();
+        Label lbVarausHaeSnimella = new Label("Hae varaus Sukunimellä");
         TextField tfAsiakasIDVaraus = new TextField();
         Label lbAsiakasIDVaraus = new Label("Asiakas ID");
         TextField tfMokkiIDVaraus = new TextField();
@@ -429,21 +431,29 @@ public class Kayttoliittyma extends Application {
         Button btMuokkaaVaraus = new Button("Muokkaa varaus");
         Button btPoistaVaraus = new Button("Poista varaus");
         Button btVarausHaku = new Button("Hae");
+        Button btVarausHaku2 = new Button("Hae");
+        TextField tfVarausID = new TextField();
+        Label lbVarausID = new Label("Varaus ID");
         GridPane gpVaraus = new GridPane();
-        gpVaraus.add(lbVarausID, 0, 0);
-        gpVaraus.add(tfVarausID, 1, 0);
-        gpVaraus.add(lbAsiakasIDVaraus, 0, 1);
-        gpVaraus.add(tfAsiakasIDVaraus, 1, 1);
-        gpVaraus.add(lbMokkiIDVaraus, 0, 2);
-        gpVaraus.add(tfMokkiIDVaraus, 1, 2);
-        gpVaraus.add(lbVarattuAlkuPvm, 0, 3);
-        gpVaraus.add(startDatePicker, 1, 3);
-        gpVaraus.add(lbVarattuLoppuPvm, 0, 4);
-        gpVaraus.add(endDatePicker, 1, 4);
-        gpVaraus.add(lbVahvistusPvm, 0, 5);
-        gpVaraus.add(tfVahvistusPvm, 1, 5);
-        gpVaraus.add(lbVarattuPvm, 0, 6);
-        gpVaraus.add(tfVarattuPvm, 1, 6);
+        gpVaraus.add(lbVarausHaeMokilla, 0, 0);
+        gpVaraus.add(tfVarausHaeMokilla, 1, 0);
+        gpVaraus.add(lbVarausHaeSnimella, 0, 1);
+        gpVaraus.add(tfVarausHaeSnimella, 1, 1);
+        gpVaraus.add(btVarausHaku2, 2,1);
+        gpVaraus.add(lbAsiakasIDVaraus, 0, 2);
+        gpVaraus.add(tfAsiakasIDVaraus, 1, 2);
+        gpVaraus.add(lbMokkiIDVaraus, 0, 3);
+        gpVaraus.add(tfMokkiIDVaraus, 1, 3);
+        gpVaraus.add(lbVarattuAlkuPvm, 0, 4);
+        gpVaraus.add(startDatePicker, 1, 4);
+        gpVaraus.add(lbVarattuLoppuPvm, 0, 5);
+        gpVaraus.add(endDatePicker, 1, 5);
+        gpVaraus.add(lbVahvistusPvm, 0, 6);
+        gpVaraus.add(tfVahvistusPvm, 1, 6);
+        gpVaraus.add(lbVarattuPvm, 0, 7);
+        gpVaraus.add(tfVarattuPvm, 1, 7);
+        gpVaraus.add(lbVarausID, 0, 8);
+        gpVaraus.add(tfVarausID, 1, 8);
         gpVaraus.add(btVarausHaku, 2, 0);
         HBox hbVarausNapit = new HBox();
         hbVarausNapit.getChildren().addAll(btLisaaVaraus, btMuokkaaVaraus, btPoistaVaraus);
@@ -468,8 +478,14 @@ public class Kayttoliittyma extends Application {
             primaryStage.setScene(varausScene);
         });
         btVarausHaku.setOnAction(e->{
-            int mokki_id = Integer.parseInt(DatabaseUtils.getMokkiIdByMokkiName(tfVarausID.getText()));
+            int mokki_id = Integer.parseInt(DatabaseUtils.getMokkiIdByMokkiName(tfVarausHaeMokilla.getText()));
             List<Varaus> varausLista = DatabaseUtils.selectVarausByMokkiID(mokki_id);
+            lvVaraus.getItems().clear();
+            lvVaraus.getItems().addAll(varausLista);
+        });
+        btVarausHaku2.setOnAction(e->{
+            int asiakas_id = DatabaseUtils.getAsiakasIdBySukunimi(tfVarausHaeSnimella.getText());
+            List<Varaus> varausLista = DatabaseUtils.selectVarausByAsiakasID(asiakas_id);
             lvVaraus.getItems().clear();
             lvVaraus.getItems().addAll(varausLista);
         });
@@ -487,6 +503,8 @@ public class Kayttoliittyma extends Application {
             LocalDate varattu_pvm_loppu = endDatePicker.getValue();
             DatabaseUtils.insertVaraus(asiakas_id, mokki_id, varattu_pvm_alku, varattu_pvm_loppu);
         });
+
+
 
     }
 }

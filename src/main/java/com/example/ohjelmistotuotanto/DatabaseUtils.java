@@ -129,7 +129,64 @@ public class DatabaseUtils {
                 Date vahvistus_pvm = rs.getDate("vahvistus_pvm");
                 Date varattu_alkupvm = rs.getDate("varattu_alkupvm");
                 Date varattu_loppupvm = rs.getDate("varattu_loppupvm");
-                varaukset.add(new Varaus(asiakas_id, mokkiId, varattu_alkupvm.toLocalDate(), varattu_loppupvm.toLocalDate(), varattu_pvm.toLocalDate(), vahvistus_pvm.toLocalDate()));
+                int varaus_id = rs.getInt("varaus_id");
+                varaukset.add(new Varaus(asiakas_id, mokkiId, varattu_alkupvm.toLocalDate(), varattu_loppupvm.toLocalDate(), varattu_pvm.toLocalDate(), vahvistus_pvm.toLocalDate(), varaus_id));
+            }
+        } catch (Exception ex) {
+            System.out.println("Error: " + ex.getMessage());
+        } finally {
+            close(rs);
+            close(pstmt);
+            close(conn);
+        }
+        return varaukset;
+    }
+    public static int getAsiakasIdBySukunimi(String sukunimi){
+        Connection conn = null;
+        PreparedStatement pstmt = null;
+        ResultSet rs = null;
+        int asiakas_id = 0;
+        try {
+            conn = getConnection();
+            String sql = "SELECT * FROM asiakas WHERE sukunimi = ?";
+            pstmt = conn.prepareStatement(sql);
+            pstmt.setString(1, sukunimi);
+            rs = pstmt.executeQuery();
+            while (rs.next()) {
+                asiakas_id = rs.getInt("asiakas_id");
+
+            }
+
+        } catch (Exception ex) {
+            System.out.println("Error: " + ex.getMessage());
+        } finally {
+            close(rs);
+            close(pstmt);
+            close(conn);
+        }
+        return asiakas_id;
+    }
+    public static List<Varaus> selectVarausByAsiakasID(int asiakas_id){
+        List<Varaus> varaukset = new ArrayList<>();
+        Connection conn = null;
+        PreparedStatement pstmt = null;
+        ResultSet rs = null;
+        try {
+            conn = getConnection();
+            String sql = "SELECT * FROM varaus WHERE asiakas_id = ?";
+            pstmt = conn.prepareStatement(sql);
+            pstmt.setInt(1, asiakas_id);
+            rs = pstmt.executeQuery();
+
+            while (rs.next()) {
+                int mokki_id = rs.getInt("mokki_id");
+                int asiakasId = rs.getInt("asiakas_id");
+                Date varattu_pvm = rs.getDate("varattu_pvm");
+                Date vahvistus_pvm = rs.getDate("vahvistus_pvm");
+                Date varattu_alkupvm = rs.getDate("varattu_alkupvm");
+                Date varattu_loppupvm = rs.getDate("varattu_loppupvm");
+                int varaus_id = rs.getInt("varaus_id");
+                varaukset.add(new Varaus(asiakasId, mokki_id, varattu_alkupvm.toLocalDate(), varattu_loppupvm.toLocalDate(), varattu_pvm.toLocalDate(), vahvistus_pvm.toLocalDate(), varaus_id));
             }
         } catch (Exception ex) {
             System.out.println("Error: " + ex.getMessage());
@@ -582,6 +639,8 @@ public class DatabaseUtils {
             close(conn);
         }
     }
+
+
     public static void updateAlue(int alue_id, String nimi){
         Connection conn = null;
         PreparedStatement pstmt = null;
@@ -608,7 +667,7 @@ public class DatabaseUtils {
         PreparedStatement pstmt = null;
         try {
             conn = getConnection();
-            sele
+            selectMokitByAlueId(id).forEach(mokki -> deleteMokkiById(mokki.getMokki_id()));
             deleteMokkiById(id);
             String sql = "DELETE alue FROM alue WHERE alue_id = ?";
             pstmt = conn.prepareStatement(sql);
