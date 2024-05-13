@@ -331,11 +331,12 @@ public class DatabaseUtils {
             rs = pstmt.executeQuery();
 
             while (rs.next()) {
+                int id = rs.getInt("palvelu_id");
                 String nimi = rs.getString("nimi");
                 int alue_id = rs.getInt("alue_id");
                 String kuvaus = rs.getString("kuvaus");
                 double hinta = rs.getDouble("hinta");
-                palvelut.add(new Palvelu(alue_id, nimi, kuvaus, hinta));
+                palvelut.add(new Palvelu(id, alue_id, nimi, kuvaus, hinta));
             }
         } catch (Exception ex) {
             System.out.println("Error: " + ex.getMessage());
@@ -346,6 +347,29 @@ public class DatabaseUtils {
         }
         return palvelut;
     }
+
+    public static void deletePalveluById(int id) {
+        Connection conn = null;
+        PreparedStatement deleteStmt = null;
+        ResultSet rs = null;
+        try {
+            conn = getConnection();
+            conn.setAutoCommit(false);
+            String sql = "DELETE FROM palvelu WHERE palvelu_id = ?";
+            deleteStmt = conn.prepareStatement(sql);
+            deleteStmt.setInt(1, id);
+            deleteStmt.executeUpdate();
+            conn.commit();
+            System.out.println("All related varaus records deleted.");
+
+        } catch (Exception ex) {
+            System.out.println("Delete error: " + ex.getMessage());
+        } finally {
+            close(deleteStmt);
+            close(conn);
+        }
+    }
+
     public static String getMokkiIdByMokkiName(String name){
         Connection conn = null;
         PreparedStatement pstmt = null;
@@ -693,6 +717,7 @@ public class DatabaseUtils {
         PreparedStatement pstmt = null;
         try {
             conn = getConnection();
+            sele
             selectMokitByAlueId(id).forEach(mokki -> deleteMokkiById(mokki.getMokki_id()));
             deleteMokkiById(id);
             String sql = "DELETE alue FROM alue WHERE alue_id = ?";

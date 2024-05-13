@@ -1,18 +1,20 @@
 package com.example.ohjelmistotuotanto;
 
 public class Palvelu {
+    private int id;
     private int alue_id;
     private String nimi;
     private String kuvaus;
     private double hinta;
     private double alv;
 
-    public Palvelu(int alue_id, String nimi, String kuvaus, double hinta) {
+    public Palvelu(int id, int alue_id, String nimi, String kuvaus, double hinta) {
         this.alue_id = alue_id;
         this.nimi = nimi;
         this.kuvaus = kuvaus;
         this.hinta = hinta;
         this.alv = hinta * 0.10;
+        this.id = id;
     }
 
     public String getNimi() {
@@ -29,6 +31,9 @@ public class Palvelu {
 
     public double getAlv() {
         return this.alv;
+    }
+    public int getId() {
+        return this.id;
     }
 
     public void setNimi(String nimi) {

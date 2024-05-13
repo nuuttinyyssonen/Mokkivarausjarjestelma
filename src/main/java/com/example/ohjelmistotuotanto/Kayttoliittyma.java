@@ -15,6 +15,7 @@ import java.util.List;
 public class Kayttoliittyma extends Application {
     public int asiakas_id;
     public int mokki_id;
+    public int palvelu_id_delete;
 
     public static void main(String[] args) {
         launch(args);
@@ -78,8 +79,6 @@ public class Kayttoliittyma extends Application {
         vbAlue.getChildren().addAll(gpAlue, hbAlueNapit);
         alueet.setCenter(vbAlue);
 
-
-
         btAlueet.setOnAction(e->{
             alueet.setTop(hbValikko);
             primaryStage.setScene(alueetScene);
@@ -89,7 +88,7 @@ public class Kayttoliittyma extends Application {
             DatabaseUtils.insertAlue(alueNimi);
         });
         btPoistaAlue.setOnAction(e->{
-            //Poista alue tietokannasta
+
         });
         btMuokkaaAlue.setOnAction(e->{
             int alueenId = DatabaseUtils.selectAlueetByName(tfAlueNimi.getText());
@@ -403,8 +402,16 @@ public class Kayttoliittyma extends Application {
             tfPalveluNimi.setText(valittuPalvelu.getNimi());
             tfPalveluHinta.setText(String.valueOf(valittuPalvelu.getHinta()));
             taPalveluKuvaus.setText(valittuPalvelu.getKuvaus());
+            palvelu_id_delete = valittuPalvelu.getId();
         });
 
+        btPoistaPalvelu.setOnAction(e->{
+            if(palvelu_id_delete == 0) {
+                return;
+            }
+            System.out.println(palvelu_id_delete);
+            DatabaseUtils.deletePalveluById(palvelu_id_delete);
+        });
 
         //Luodaan varaus näkymä
         BorderPane varaus = new BorderPane();
