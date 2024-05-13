@@ -5,15 +5,17 @@ import java.util.Date;
 
 public class Varaus {
     private int asiakas_id;
+    private int varaus_id;
     private int mokki_id;
     private LocalDate varattu_pvm;
     private LocalDate vahvistus_pvm;
     private LocalDate varattu_alkupvm;
     private LocalDate varattu_loppupvm;
 
-    public Varaus(int asiakas_id, int mokki_id, LocalDate varattu_alkupvmu, LocalDate varattu_loppupvmu, LocalDate varattu_pvm, LocalDate vahvistus_pvm) {
+    public Varaus(int asiakas_id, int mokki_id, LocalDate varattu_alkupvmu, LocalDate varattu_loppupvmu, LocalDate varattu_pvm, LocalDate vahvistus_pvm, int varaus_id) {
         this.asiakas_id = asiakas_id;
         this.mokki_id = mokki_id;
+        this.varaus_id = varaus_id;
         this.varattu_pvm = varattu_pvm;
         this.vahvistus_pvm = vahvistus_pvm;
         this.varattu_alkupvm = varattu_alkupvmu;
