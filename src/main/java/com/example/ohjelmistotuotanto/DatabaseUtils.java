@@ -422,6 +422,57 @@ public class DatabaseUtils {
         }
     }
 
+    public static void deleteMokkiById(int id) {
+        Connection conn = null;
+        PreparedStatement pstmt = null;
+        try {
+            deleteVarausByMokkiId(id);
+            conn = getConnection();
+            String sql = "DELETE mokki FROM mokki WHERE mokki_id = ?";
+            pstmt = conn.prepareStatement(sql);
+            pstmt.setInt(1, id);
+            int affectedRows = pstmt.executeUpdate();
+            System.out.println("Inserted " + affectedRows + " rows.");
+        } catch (Exception ex) {
+            System.out.println("Delete error: " + ex.getMessage());
+        } finally {
+            close(pstmt);
+            close(conn);
+        }
+    }
+
+    public static void deleteVarausByMokkiId(int id) {
+        Connection conn = null;
+        PreparedStatement pstmt = null;
+        PreparedStatement deleteStmt = null;
+        ResultSet rs = null;
+        try {
+            conn = getConnection();
+            conn.setAutoCommit(false);
+
+            String sql = "SELECT varaus_id FROM varaus WHERE mokki_id = ?";
+            pstmt = conn.prepareStatement(sql);
+            pstmt.setInt(1, id);
+            rs = pstmt.executeQuery();
+
+            String sql_delete = "DELETE FROM varaus WHERE varaus_id = ?";
+            deleteStmt = conn.prepareStatement(sql_delete);
+
+            while (rs.next()) {
+                int varaus_id = rs.getInt("varaus_id");
+                deleteStmt.setInt(1, varaus_id);
+                deleteStmt.executeUpdate();
+            }
+            conn.commit();
+            System.out.println("All related varaus records deleted.");
+        } catch (Exception ex) {
+            System.out.println("Delete error: " + ex.getMessage());
+        } finally {
+            close(pstmt);
+            close(conn);
+        }
+    }
+
     public static List<Asiakas> selectAsiakasByName(String nimi) {
         List<Asiakas> asiakas = new ArrayList<>();
         Connection conn = null;

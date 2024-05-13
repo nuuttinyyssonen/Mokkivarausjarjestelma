@@ -14,6 +14,7 @@ import java.util.List;
 
 public class Kayttoliittyma extends Application {
     public int asiakas_id;
+    public int mokki_id;
 
     public static void main(String[] args) {
         launch(args);
@@ -150,6 +151,7 @@ public class Kayttoliittyma extends Application {
             taMokkiKuvaus.setText(valittuMokki.getKuvaus());
             taMokkiVarustelu.setText(valittuMokki.getVarustelu());
             tfMokkiID.setText(String.valueOf(valittuMokki.getMokki_id()));
+            mokki_id = valittuMokki.getMokki_id();
         });
 
         btLisaaMokki.setOnAction(e->{
@@ -180,6 +182,13 @@ public class Kayttoliittyma extends Application {
             List<Mokki> mokitLista = DatabaseUtils.selectMokitByName(tfMokkiHae.getText());
             lvMokit.getItems().clear();
             lvMokit.getItems().addAll(mokitLista);
+        });
+
+        btPoistaMokki.setOnAction(e->{
+            if(mokki_id == 0) {
+                return;
+            }
+            DatabaseUtils.deleteMokkiById(mokki_id);
         });
 
         GridPane gpMokki = new GridPane();
@@ -303,7 +312,6 @@ public class Kayttoliittyma extends Application {
 
         btMuokkaaAsiakas.setOnAction(e->{
             if(asiakas_id == 0) {
-                System.out.println("here");
                 return;
             }
             Asiakas muokattavaAsiakas = new Asiakas(asiakas_id, tfPostinro.getText(), tfEtunimi.getText(), tfSukunimi.getText(), tfLahiosoite.getText(), tfEmail.getText(), tfPuhelin.getText());
@@ -312,7 +320,6 @@ public class Kayttoliittyma extends Application {
 
         btPoistaAsiakas.setOnAction(e->{
             if(asiakas_id == 0) {
-                System.out.println("here");
                 return;
             }
             DatabaseUtils.deleteAsiakasById(asiakas_id);
