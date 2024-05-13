@@ -166,6 +166,32 @@ public class DatabaseUtils {
         }
         return asiakas_id;
     }
+    public static void updateVaraus(int varaus_id, int asiakas_id, int mokki_id, LocalDate varattu_pvm_alku, LocalDate varattu_pvm_loppu){
+        Connection conn = null;
+        PreparedStatement pstmt = null;
+        try{
+            conn = getConnection();
+            String sql = "UPDATE varaus SET asiakas_id = ?, mokki_id = ?, varattu_alkupvm = ?, varattu_loppupvm = ? WHERE varaus_id = ?";
+            pstmt = conn.prepareStatement(sql);
+            pstmt.setInt(1, asiakas_id);
+            pstmt.setInt(2, mokki_id);
+            Date varattu_alkupvm_sql = Date.valueOf(varattu_pvm_alku);
+            Date varattu_loppupvm_sql = Date.valueOf(varattu_pvm_loppu);
+            pstmt.setDate(3, varattu_alkupvm_sql);
+            pstmt.setDate(4, varattu_loppupvm_sql);
+            pstmt.setInt(5, varaus_id);
+
+            int affectedRows = pstmt.executeUpdate();
+            System.out.println("Updated " + affectedRows + "rows.");
+
+        }catch (Exception ex){
+            System.out.println("Error: " + ex.getMessage());
+        }finally {
+            close(pstmt);
+            close(conn);
+
+        }
+    }
     public static List<Varaus> selectVarausByAsiakasID(int asiakas_id){
         List<Varaus> varaukset = new ArrayList<>();
         Connection conn = null;

@@ -503,7 +503,14 @@ public class Kayttoliittyma extends Application {
             LocalDate varattu_pvm_loppu = endDatePicker.getValue();
             DatabaseUtils.insertVaraus(asiakas_id, mokki_id, varattu_pvm_alku, varattu_pvm_loppu);
         });
-
+        btMuokkaaVaraus.setOnAction(e->{
+            int asiakas_id = Integer.parseInt(tfAsiakasIDVaraus.getText());
+            int mokki_id = Integer.parseInt(tfMokkiIDVaraus.getText());
+            LocalDate varattu_pvm_alku = startDatePicker.getValue();
+            LocalDate varattu_pvm_loppu = endDatePicker.getValue();
+            int varaus_id = Integer.parseInt(tfVarausID.getText());
+            DatabaseUtils.updateVaraus(varaus_id, asiakas_id, mokki_id, varattu_pvm_alku, varattu_pvm_loppu);
+        });
 
 
     }
