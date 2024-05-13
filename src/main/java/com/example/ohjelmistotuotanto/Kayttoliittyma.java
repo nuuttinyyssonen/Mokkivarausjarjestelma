@@ -89,7 +89,10 @@ public class Kayttoliittyma extends Application {
             DatabaseUtils.insertAlue(alueNimi);
         });
         btPoistaAlue.setOnAction(e->{
-
+            if(alue_id_to_use == 0) {
+                return;
+            }
+            DatabaseUtils.deleteAlueById(alue_id_to_use);
         });
         btMuokkaaAlue.setOnAction(e->{
             if(alue_id_to_use == 0) {

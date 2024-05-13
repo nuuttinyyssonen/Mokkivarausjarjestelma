@@ -762,14 +762,79 @@ public class DatabaseUtils {
 
         }
     }
+
+    public static void deletePalveluByAlueId(int id) {
+        Connection conn = null;
+        PreparedStatement pstmt = null;
+        PreparedStatement deleteStmt = null;
+        ResultSet rs = null;
+        try {
+            conn = getConnection();
+            conn.setAutoCommit(false);
+
+            String sql = "SELECT palvelu_id FROM palvelu WHERE alue_id = ?";
+            pstmt = conn.prepareStatement(sql);
+            pstmt.setInt(1, id);
+            rs = pstmt.executeQuery();
+
+            String sql_delete = "DELETE FROM palvelu WHERE palvelu_id = ?";
+            deleteStmt = conn.prepareStatement(sql_delete);
+
+            while (rs.next()) {
+                int palvelu_id = rs.getInt("palvelu_id");
+                deleteStmt.setInt(1, palvelu_id);
+                deleteStmt.executeUpdate();
+            }
+            conn.commit();
+            System.out.println("All related varaus records deleted.");
+        } catch (Exception ex) {
+            System.out.println("Delete error: " + ex.getMessage());
+        } finally {
+            close(pstmt);
+            close(conn);
+        }
+    }
+
+    public static void deleteMokkiByAlueId(int id) {
+        Connection conn = null;
+        PreparedStatement pstmt = null;
+        PreparedStatement deleteStmt = null;
+        ResultSet rs = null;
+        try {
+            conn = getConnection();
+            conn.setAutoCommit(false);
+
+            String sql = "SELECT mokki_id FROM mokki WHERE alue_id = ?";
+            pstmt = conn.prepareStatement(sql);
+            pstmt.setInt(1, id);
+            rs = pstmt.executeQuery();
+
+            String sql_delete = "DELETE FROM mokki WHERE mokki_id = ?";
+            deleteStmt = conn.prepareStatement(sql_delete);
+
+            while (rs.next()) {
+                int mokki_id = rs.getInt("mokki_id");
+                deleteStmt.setInt(1, mokki_id);
+                deleteStmt.executeUpdate();
+            }
+            conn.commit();
+            System.out.println("All related varaus records deleted.");
+        } catch (Exception ex) {
+            System.out.println("Delete error: " + ex.getMessage());
+        } finally {
+            close(pstmt);
+            close(conn);
+        }
+    }
+
     public static void deleteAlueById(int id) {
         Connection conn = null;
         PreparedStatement pstmt = null;
         try {
             conn = getConnection();
-            selectMokitByAlueId(id).forEach(mokki -> deleteMokkiById(mokki.getMokki_id()));
-            deleteMokkiById(id);
-            String sql = "DELETE alue FROM alue WHERE alue_id = ?";
+            deletePalveluByAlueId(id);
+            deleteMokkiByAlueId(id);
+            String sql = "DELETE FROM alue WHERE alue_id = ?";
             pstmt = conn.prepareStatement(sql);
             pstmt.setInt(1, id);
             int affectedRows = pstmt.executeUpdate();
