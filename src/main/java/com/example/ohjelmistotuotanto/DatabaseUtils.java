@@ -852,8 +852,6 @@ public class DatabaseUtils {
         PreparedStatement pstmt = null;
         try {
             conn = getConnection();
-            deletePalveluByAlueId(id);
-            deleteMokkiByAlueId(id);
             String sql = "DELETE FROM varaus WHERE varaus_id = ?";
             pstmt = conn.prepareStatement(sql);
             pstmt.setInt(1, id);
