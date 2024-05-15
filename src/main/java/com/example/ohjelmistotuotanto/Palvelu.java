@@ -49,7 +49,7 @@ public class Palvelu {
     }
 
     public String toString() {
-        return "Palvelun nimi: "+this.nimi + "\n Alue ID: "+ this.alue_id;
+        return "Palvelun nimi: "+this.nimi + "\n" + "Palvelun hinta: "+ this.getHinta() + "\n" + "Palvelun kuvaus: " + this.getKuvaus();
     }
 
 

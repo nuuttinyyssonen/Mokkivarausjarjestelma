@@ -22,6 +22,6 @@ public class Alue {
     }
 
     public String toString() {
-        return "Alue: " + nimi + " " + alue_id;
+        return "Alue: " + nimi;
     }
 }

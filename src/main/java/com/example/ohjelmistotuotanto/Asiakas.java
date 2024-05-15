@@ -69,7 +69,7 @@ public class Asiakas {
     }
 
     public String toString() {
-        return "Asiakas: " + etunimi + " " + sukunimi;
+        return "Asiakas: " + etunimi + " " + sukunimi + "\n" + "Osoite: " + this.getLahiosoite() + " " + this.getPostinro() + "\n" + "S-Posti: " + this.getEmail() + "\n" + "Puhelinnro: " + this.getPuhelinnro();
     }
 
     public static void main(String[] args) {

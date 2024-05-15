@@ -846,4 +846,24 @@ public class DatabaseUtils {
             close(conn);
         }
     }
+
+    public static void deleteVarausById(int id) {
+        Connection conn = null;
+        PreparedStatement pstmt = null;
+        try {
+            conn = getConnection();
+            deletePalveluByAlueId(id);
+            deleteMokkiByAlueId(id);
+            String sql = "DELETE FROM varaus WHERE varaus_id = ?";
+            pstmt = conn.prepareStatement(sql);
+            pstmt.setInt(1, id);
+            int affectedRows = pstmt.executeUpdate();
+            System.out.println("Inserted " + affectedRows + " rows.");
+        } catch (Exception ex) {
+            System.out.println("Delete error: " + ex.getMessage());
+        } finally {
+            close(pstmt);
+            close(conn);
+        }
+    }
 }

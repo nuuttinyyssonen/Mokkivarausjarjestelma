@@ -45,6 +45,9 @@ public class Varaus {
     public LocalDate getVarattu_loppupvm() {
         return this.varattu_loppupvm;
     }
+    public int getVaraus_id() {
+        return this.varaus_id;
+    }
 
 
     public void setVarattu_alkupvm(LocalDate varattu_alkupvm) {

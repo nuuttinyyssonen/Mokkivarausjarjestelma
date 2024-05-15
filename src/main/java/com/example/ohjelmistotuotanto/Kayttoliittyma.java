@@ -17,6 +17,7 @@ public class Kayttoliittyma extends Application {
     public int mokki_id;
     public int palvelu_id_delete;
     public int alue_id_to_use;
+    public int varaus_id;
 
     public static void main(String[] args) {
         launch(args);
@@ -108,7 +109,7 @@ public class Kayttoliittyma extends Application {
 
         lvAlueet.setOnMouseClicked(e->{
             Alue valittuAlue = (Alue) lvAlueet.getSelectionModel().getSelectedItem();
-            tfAlueeenNimi.setText(String.valueOf(valittuAlue.getAlue_id()));
+            tfAlueeenNimi.setText(String.valueOf(valittuAlue.getNimi()));
             alue_id_to_use = valittuAlue.getAlue_id();
         });
 
@@ -145,8 +146,6 @@ public class Kayttoliittyma extends Application {
         tfOsoite.setPrefWidth(70);
         Label lbOsoite = new Label("Osoite");
         TextField tfHenkilomaara = new TextField();
-        Label lbMokkiID = new Label("Mökin ID");
-        TextField tfMokkiID = new TextField();
         tfHenkilomaara.setPrefWidth(70);
         Label lbHenkilomaara = new Label("Henkilömäärä");
         Button btLisaaMokki = new Button("Lisää mökki");
@@ -165,7 +164,6 @@ public class Kayttoliittyma extends Application {
             tfMokkiHinta.setText(String.valueOf(valittuMokki.getHinta()));
             taMokkiKuvaus.setText(valittuMokki.getKuvaus());
             taMokkiVarustelu.setText(valittuMokki.getVarustelu());
-            tfMokkiID.setText(String.valueOf(valittuMokki.getMokki_id()));
             mokki_id = valittuMokki.getMokki_id();
         });
 
@@ -181,7 +179,7 @@ public class Kayttoliittyma extends Application {
             DatabaseUtils.insertMokki(alue_id, postinro, mokkiNimi, osoite, hinta, kuvaus, henkilomaara, varustelu);
         });
         btMuokkaaMokki.setOnAction(e->{
-            int mokki_id = Integer.parseInt((tfMokkiID.getText()));
+            int mokki_id_update = mokki_id;
             int alue_id = Integer.parseInt(tfMokkiAlueId.getText());
             String postinro = tfPostnro.getText();
             String mokkiNimi = tfMokkiNimi.getText();
@@ -190,7 +188,7 @@ public class Kayttoliittyma extends Application {
             double hinta = Double.parseDouble(tfMokkiHinta.getText());
             String kuvaus = taMokkiKuvaus.getText();
             String varustelu = taMokkiVarustelu.getText();
-            DatabaseUtils.updateMokki(mokki_id,alue_id, postinro, mokkiNimi, osoite, hinta, kuvaus, henkilomaara, varustelu);
+            DatabaseUtils.updateMokki(mokki_id_update,alue_id, postinro, mokkiNimi, osoite, hinta, kuvaus, henkilomaara, varustelu);
         });
 
         btMokkiHaku.setOnAction(e-> {
@@ -225,8 +223,6 @@ public class Kayttoliittyma extends Application {
         gpMokki.add(taMokkiKuvaus, 1, 7);
         gpMokki.add(lbMokkiVarustelu, 0, 8);
         gpMokki.add(taMokkiVarustelu, 1, 8);
-        gpMokki.add(lbMokkiID, 0, 9);
-        gpMokki.add(tfMokkiID, 1, 9);
         gpMokki.add(btMokkiHaku, 2, 0);
         HBox hbMokkiNapit = new HBox();
         hbMokkiNapit.getChildren().addAll(btLisaaMokki, btMuokkaaMokki, btPoistaMokki);
@@ -249,7 +245,7 @@ public class Kayttoliittyma extends Application {
         ListView lvAsiakkaat = new ListView();
         asiakkaat.setLeft(lvAsiakkaat);
         TextField tfAsiakasHaeNimella = new TextField();
-        Label lbAsiakasHaeNimella = new Label("Hae nimellä");
+        Label lbAsiakasHaeNimella = new Label("Hae sukunimellä");
         TextField tfEtunimi = new TextField();
         Label lbEtunimi = new Label("Etunimi");
         TextField tfSukunimi = new TextField();
@@ -443,17 +439,11 @@ public class Kayttoliittyma extends Application {
         DatePicker endDatePicker = new DatePicker();
         Label lbVarattuAlkuPvm = new Label("Varattu alku pvm");
         Label lbVarattuLoppuPvm = new Label("Varattu loppu pvm");
-        TextField tfVahvistusPvm = new TextField();
-        Label lbVahvistusPvm = new Label("Vahvistus pvm");
-        TextField tfVarattuPvm = new TextField();
-        Label lbVarattuPvm = new Label("Varattu pvm");
         Button btLisaaVaraus = new Button("Lisää varaus");
         Button btMuokkaaVaraus = new Button("Muokkaa varaus");
         Button btPoistaVaraus = new Button("Poista varaus");
         Button btVarausHaku = new Button("Hae");
         Button btVarausHaku2 = new Button("Hae");
-        TextField tfVarausID = new TextField();
-        Label lbVarausID = new Label("Varaus ID");
         GridPane gpVaraus = new GridPane();
         gpVaraus.add(lbVarausHaeMokilla, 0, 0);
         gpVaraus.add(tfVarausHaeMokilla, 1, 0);
@@ -468,12 +458,6 @@ public class Kayttoliittyma extends Application {
         gpVaraus.add(startDatePicker, 1, 4);
         gpVaraus.add(lbVarattuLoppuPvm, 0, 5);
         gpVaraus.add(endDatePicker, 1, 5);
-        gpVaraus.add(lbVahvistusPvm, 0, 6);
-        gpVaraus.add(tfVahvistusPvm, 1, 6);
-        gpVaraus.add(lbVarattuPvm, 0, 7);
-        gpVaraus.add(tfVarattuPvm, 1, 7);
-        gpVaraus.add(lbVarausID, 0, 8);
-        gpVaraus.add(tfVarausID, 1, 8);
         gpVaraus.add(btVarausHaku, 2, 0);
         HBox hbVarausNapit = new HBox();
         hbVarausNapit.getChildren().addAll(btLisaaVaraus, btMuokkaaVaraus, btPoistaVaraus);
@@ -491,6 +475,13 @@ public class Kayttoliittyma extends Application {
             LocalDate varattu_pvm_alku = startDatePicker.getValue();
             LocalDate varattu_pvm_loppu = endDatePicker.getValue();
             DatabaseUtils.insertVaraus(asiakas_id, mokki_id, varattu_pvm_alku, varattu_pvm_loppu);
+        });
+
+        btPoistaVaraus.setOnAction(e->{
+            if(varaus_id == 0) {
+                return;
+            }
+            DatabaseUtils.deleteVarausById(varaus_id);
         });
 
         btVaraus.setOnAction(e->{
@@ -515,6 +506,7 @@ public class Kayttoliittyma extends Application {
             tfMokkiIDVaraus.setText(String.valueOf(valittuVaraus.getMokki_id()));
             endDatePicker.setValue(valittuVaraus.getVarattu_loppupvm());
             startDatePicker.setValue(valittuVaraus.getVarattu_alkupvm());
+            varaus_id = valittuVaraus.getVaraus_id();
         });
         btLisaaVaraus.setOnAction(e->{
             int asiakas_id = Integer.parseInt(tfAsiakasIDVaraus.getText());
@@ -528,7 +520,6 @@ public class Kayttoliittyma extends Application {
             int mokki_id = Integer.parseInt(tfMokkiIDVaraus.getText());
             LocalDate varattu_pvm_alku = startDatePicker.getValue();
             LocalDate varattu_pvm_loppu = endDatePicker.getValue();
-            int varaus_id = Integer.parseInt(tfVarausID.getText());
             DatabaseUtils.updateVaraus(varaus_id, asiakas_id, mokki_id, varattu_pvm_alku, varattu_pvm_loppu);
         });
 
