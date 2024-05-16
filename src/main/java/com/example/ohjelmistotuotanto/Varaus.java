@@ -60,7 +60,7 @@ public class Varaus {
 
     public String toString() {
         String mokinNimi = DatabaseUtils.getMokkiNameByMokkiID(this.mokki_id);
-        return "Mökin nimi: "+mokinNimi + "\n Asiakas ID: "+ this.asiakas_id;
+        return "Mökin nimi: " +mokinNimi + "\n " + "Asiakas ID: " + this.asiakas_id + "\n" + "Varattu: " + this.getVarattu_pvm() + "\n" + "Varauksen alkaminen: " + this.getVarattu_alkupvm() + "\n" + "Varauksen loppuminen: " + this.getVarattu_loppupvm();
     }
 }
 
