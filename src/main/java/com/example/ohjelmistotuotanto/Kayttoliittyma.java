@@ -94,12 +94,18 @@ public class Kayttoliittyma extends Application {
                 return;
             }
             DatabaseUtils.deleteAlueById(alue_id_to_use);
+            List<Alue> alueetlista = DatabaseUtils.selectAlue(tfAlueNimi.getText());
+            lvAlueet.getItems().clear();
+            lvAlueet.getItems().addAll(alueetlista);
         });
         btMuokkaaAlue.setOnAction(e->{
             if(alue_id_to_use == 0) {
                 return;
             }
             DatabaseUtils.updateAlue(alue_id_to_use, tfAlueeenNimi.getText());
+            List<Alue> alueetlista = DatabaseUtils.selectAlue(tfAlueNimi.getText());
+            lvAlueet.getItems().clear();
+            lvAlueet.getItems().addAll(alueetlista);
         });
         btAlueHaku.setOnAction(e->{
             List<Alue> alueetlista = DatabaseUtils.selectAlue(tfAlueNimi.getText());
@@ -189,6 +195,9 @@ public class Kayttoliittyma extends Application {
             String kuvaus = taMokkiKuvaus.getText();
             String varustelu = taMokkiVarustelu.getText();
             DatabaseUtils.updateMokki(mokki_id_update,alue_id, postinro, mokkiNimi, osoite, hinta, kuvaus, henkilomaara, varustelu);
+            List<Mokki> mokitLista = DatabaseUtils.selectMokitByName(tfMokkiHae.getText());
+            lvMokit.getItems().clear();
+            lvMokit.getItems().addAll(mokitLista);
         });
 
         btMokkiHaku.setOnAction(e-> {
@@ -202,6 +211,9 @@ public class Kayttoliittyma extends Application {
                 return;
             }
             DatabaseUtils.deleteMokkiById(mokki_id);
+            List<Mokki> mokitLista = DatabaseUtils.selectMokitByName(tfMokkiHae.getText());
+            lvMokit.getItems().clear();
+            lvMokit.getItems().addAll(mokitLista);
         });
 
         GridPane gpMokki = new GridPane();
@@ -327,6 +339,9 @@ public class Kayttoliittyma extends Application {
             }
             Asiakas muokattavaAsiakas = new Asiakas(asiakas_id, tfPostinro.getText(), tfEtunimi.getText(), tfSukunimi.getText(), tfLahiosoite.getText(), tfEmail.getText(), tfPuhelin.getText());
             DatabaseUtils.updateAsiakasById(asiakas_id, muokattavaAsiakas);
+            List<Asiakas> asiakasLista = DatabaseUtils.selectAsiakasByName(tfAsiakasHaeNimella.getText());
+            lvAsiakkaat.getItems().clear();
+            lvAsiakkaat.getItems().addAll(asiakasLista);
         });
 
         btPoistaAsiakas.setOnAction(e->{
@@ -334,6 +349,9 @@ public class Kayttoliittyma extends Application {
                 return;
             }
             DatabaseUtils.deleteAsiakasById(asiakas_id);
+            List<Asiakas> asiakasLista = DatabaseUtils.selectAsiakasByName(tfAsiakasHaeNimella.getText());
+            lvAsiakkaat.getItems().clear();
+            lvAsiakkaat.getItems().addAll(asiakasLista);
         });
 
         //Luodaan palvelut näkymä
@@ -413,6 +431,10 @@ public class Kayttoliittyma extends Application {
             int alue_id_update = Integer.parseInt(tfAlueIDPalvelu.getText());
             double hinta_update = Double.parseDouble(tfPalveluHinta.getText());
             DatabaseUtils.updatePaveluById(palvelu_id_delete, alue_id_update, tfPalveluNimi.getText(), taPalveluKuvaus.getText(), hinta_update);
+            List<Palvelu> palvelutLista = DatabaseUtils.selectPalvelutByName(tfPalveluHaku.getText());
+            lvPalvelut.getItems().clear();
+            lvPalvelut.getItems().addAll(palvelutLista);
+
         });
 
         btPoistaPalvelu.setOnAction(e->{
@@ -420,6 +442,9 @@ public class Kayttoliittyma extends Application {
                 return;
             }
             DatabaseUtils.deletePalveluById(palvelu_id_delete);
+            List<Palvelu> palvelutLista = DatabaseUtils.selectPalvelutByName(tfPalveluHaku.getText());
+            lvPalvelut.getItems().clear();
+            lvPalvelut.getItems().addAll(palvelutLista);
         });
 
         //Luodaan varaus näkymä
